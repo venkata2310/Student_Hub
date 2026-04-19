@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Tools Hub | GPA, Planner & More</title>
+    <meta name="description" content="Free, fast, and privacy-focused tools for students. Calculate GPA, percentage, plan your studies, and count words instantly.">
+    <meta name="keywords" content="GPA Calculator, Percentage Calculator, Study Planner, Word Counter, Student Tools">
+    
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#f8fafc',
+                            surface: '#ffffff',
+                            primary: '#2563eb',
+                            text: '#0f172a',
+                            muted: '#64748b',
+                            border: '#e2e8f0',
+                            accent: '#eff6ff',
+                            ads: '#f1f5f9'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-sans antialiased bg-brand-bg text-brand-text transition-colors duration-300;
+            }
+            .dark {
+                --brand-bg: #020617;
+                --brand-surface: #0f172a;
+                --brand-primary: #3b82f6;
+                --brand-text: #f8fafc;
+                --brand-muted: #94a3b8;
+                --brand-border: #1e293b;
+                --brand-accent: #1e293b;
+                --brand-ads: #0f172a;
+            }
+            .dark body {
+                @apply bg-[var(--brand-bg)] text-[var(--brand-text)];
+            }
+            .dark .bg-brand-surface { @apply bg-[var(--brand-surface)]; }
+            .dark .bg-brand-bg { @apply bg-[var(--brand-bg)]; }
+            .dark .text-brand-text { @apply text-[var(--brand-text)]; }
+            .dark .text-brand-muted { @apply text-[var(--brand-muted)]; }
+            .dark .border-brand-border { @apply border-[var(--brand-border)]; }
+            .dark .bg-brand-accent { @apply bg-[var(--brand-accent)]; }
+            .dark .bg-brand-ads { @apply bg-[var(--brand-ads)]; }
+            .dark .text-brand-primary { @apply text-[var(--brand-primary)]; }
+        }
+
+        @layer components {
+            .card-minimal {
+                @apply bg-brand-surface border border-brand-border rounded-xl p-6 transition-all;
+            }
+            .input-minimal {
+                @apply w-full p-2.5 border border-brand-border rounded-lg text-sm bg-brand-surface focus:ring-2 focus:ring-brand-primary focus:border-brand-primary outline-none transition-all;
+            }
+            .label-minimal {
+                @apply block text-[11px] font-bold uppercase text-brand-muted mb-1.5 tracking-wider;
+            }
+        }
+        
+        /* Custom variable mapping for dark mode if tailwind play doesn't pick it up natively in style tag */
+        :root {
+            --brand-bg: #f8fafc;
+            --brand-surface: #ffffff;
+            --brand-primary: #2563eb;
+            --brand-text: #0f172a;
+            --brand-muted: #64748b;
+            --brand-border: #e2e8f0;
+            --brand-accent: #eff6ff;
+            --brand-ads: #f1f5f9;
+        }
+
+        .dark {
+            --brand-bg: #020617;
+            --brand-surface: #0f172a;
+            --brand-primary: #3b82f6;
+            --brand-text: #f8fafc;
+            --brand-muted: #94a3b8;
+            --brand-border: #1e293b;
+            --brand-accent: #1e293b;
+            --brand-ads: #0f172a;
+        }
+
+        .bg-brand-bg { background-color: var(--brand-bg); }
+        .bg-brand-surface { background-color: var(--brand-surface); }
+        .bg-brand-accent { background-color: var(--brand-accent); }
+        .bg-brand-ads { background-color: var(--brand-ads); }
+        .text-brand-text { color: var(--brand-text); }
+        .text-brand-muted { color: var(--brand-muted); }
+        .text-brand-primary { color: var(--brand-primary); }
+        .border-brand-border { border-color: var(--brand-border); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 h-16 bg-brand-surface border-b border-brand-border flex items-center shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
+            <div class="flex items-center space-x-2 cursor-pointer font-extrabold text-xl text-brand-primary" onclick="showPage('home')">
+                <span>🎓</span> 
+                <span>StudentHub</span>
+            </div>
+
+            <button onclick="toggleDarkMode()" class="w-10 h-6 bg-brand-border rounded-full relative transition-colors">
+                <div id="dark-mode-toggle" class="absolute top-1 left-0.5 w-4 h-4 bg-brand-surface rounded-full shadow-sm transition-all transform translate-x-0"></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div class="space-y-6 overflow-hidden">
+            <!-- Top Ad -->
+            <div class="p-4 border border-dashed border-brand-border rounded-lg bg-brand-ads flex flex-col items-center justify-center min-h-[90px] text-brand-muted text-[10px] uppercase tracking-[2px] font-bold">
+                <p>Advertisement Space (Banner Top)</p>
+            </div>
+            
+            <div id="active-content" class="transition-opacity duration-200">
+                <!-- Content will be injected here -->
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="hidden lg:flex flex-col gap-6">
+            <div class="bg-brand-primary text-white p-6 rounded-2xl shadow-sm">
+                <h4 class="text-[0.85rem] font-bold opacity-90 mb-4 tracking-wider uppercase">Your Session</h4>
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <span class="block text-[0.7rem] opacity-70 mb-1 uppercase tracking-widest font-bold">Tools Used</span>
+                        <span id="tools-used-count" class="text-2xl font-bold">00</span>
+                    </div>
+                    <div>
+                        <span class="block text-[0.7rem] opacity-70 mb-1 uppercase tracking-widest font-bold">Time Saved</span>
+                        <span class="text-2xl font-bold">12m</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 p-4 border border-dashed border-brand-border rounded-lg bg-brand-ads flex flex-col items-center justify-center min-h-[400px] text-brand-muted text-[10px] uppercase tracking-[2px] font-bold">
+                <p>Advertisement Space (Sidebar Tall)</p>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="h-16 bg-brand-surface border-t border-brand-border flex items-center shrink-0">
+        <div class="max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row justify-between items-center text-[0.8rem] text-brand-muted gap-4">
+            <div class="flex gap-6 font-medium">
+                <span>&copy; 2024 StudentHub Tools</span>
+                <a href="#" class="hover:text-brand-primary transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-brand-primary transition-colors">Terms of Service</a>
+            </div>
+            <div class="font-bold text-brand-primary uppercase tracking-[0.1em]">
+                Productivity Reimagined
+            </div>
+        </div>
+    </footer>
+
+    <!-- Templates -->
+    <template id="template-home">
+        <div class="space-y-6">
+            <section class="space-y-1">
+                <h1 class="text-[1.75rem] font-extrabold text-brand-text leading-tight">Free Student Tools</h1>
+                <p class="text-[0.95rem] text-brand-muted">Simple, privacy-focused calculators and planners for your academic success.</p>
+            </section>
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div onclick="showPage('gpa')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">%</div>
+                    <h3 class="text-[1.1rem] font-bold">GPA Calculator</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Calculate your Semester and Cumulative GPA with ease.</p>
+                </div>
+                <div onclick="showPage('percentage')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">#</div>
+                    <h3 class="text-[1.1rem] font-bold">Percentage Calculator</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Quickly find your marks percentage and grade.</p>
+                </div>
+                <div onclick="showPage('planner')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">📅</div>
+                    <h3 class="text-[1.1rem] font-bold">Study Planner</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Generate a personalized daily study timetable.</p>
+                </div>
+                <div onclick="showPage('wordcounter')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">T</div>
+                    <h3 class="text-[1.1rem] font-bold">Word Counter</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Count words, characters, and reading time instantly.</p>
+                </div>
+                <div onclick="showPage('summarizer')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">S</div>
+                    <h3 class="text-[1.1rem] font-bold">Notes Summarizer</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Condense long paragraphs into key points.</p>
+                </div>
+            </section>
+            <div class="card-minimal flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2 max-w-lg">
+                    <h2 class="text-xl font-bold">Privacy First Design</h2>
+                    <p class="text-sm text-brand-muted">All tools process your data locally in your browser session. We don't store or track your individual results.</p>
+                </div>
+                <div class="p-3 bg-brand-accent rounded-full text-brand-primary">
+                    <i data-lucide="graduation-cap" class="w-10 h-10"></i>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-gpa">
+        <div class="card-minimal space-y-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-[1.25rem] font-bold">GPA Calculator</h2>
+                <button onclick="addGPACourse()" class="bg-brand-primary text-white text-[0.85rem] font-bold px-4 py-1.5 rounded-lg hover:opacity-90">+ Add Subject</button>
+            </div>
+            <div id="gpa-courses-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- GPA Rows -->
+            </div>
+            <button onclick="calculateGPA()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90 shadow-sm transition-all">Calculate Result</button>
+            <div id="gpa-result-area" class="hidden">
+                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border">
+                    <span class="font-semibold text-sm">Semester GPA</span>
+                    <span id="gpa-result-val" class="text-xl font-bold text-brand-primary">0.00 / 4.0</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-percentage">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Percentage Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="label-minimal">Total Marks</label>
+                    <input type="number" id="perc-total" class="input-minimal" placeholder="e.g. 500">
+                </div>
+                <div>
+                    <label class="label-minimal">Obtained Marks</label>
+                    <input type="number" id="perc-obtained" class="input-minimal" placeholder="e.g. 425">
+                </div>
+            </div>
+            <button onclick="calculatePercentage()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90 shadow-sm">Get Percentage</button>
+            <div id="perc-result-area" class="hidden">
+                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border">
+                    <span class="font-semibold text-sm">Calculation Result</span>
+                    <span id="perc-result-val" class="text-xl font-bold text-brand-primary">0%</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-planner">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Study Timetable</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="label-minimal">Available Hours</label>
+                        <input type="number" id="plan-hours" class="input-minimal" value="6">
+                    </div>
+                    <div>
+                        <label class="label-minimal">Add Subjects</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="plan-subj-input" class="input-minimal" placeholder="e.g. History">
+                            <button onclick="addPlannerSubject()" class="bg-brand-primary text-white px-3 py-1.5 rounded-lg font-bold hover:opacity-90">+</button>
+                        </div>
+                    </div>
+                    <div id="planner-subjects-tags" class="flex flex-wrap gap-2"></div>
+                    <button onclick="generatePlan()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90">Generate Plan</button>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-brand-muted">Timeline</h3>
+                    <div id="planner-schedule-list" class="space-y-3">
+                        <div class="h-full flex flex-col items-center justify-center p-8 bg-brand-bg rounded-lg border border-dashed border-brand-border text-brand-muted text-xs">
+                            <p>Add subjects to generate schedule</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-wordcounter">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Word Counter</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="p-3 bg-brand-bg rounded-lg text-center border border-brand-border">
+                    <p id="word-count" class="text-lg font-bold text-brand-primary">0</p>
+                    <p class="text-[0.6rem] uppercase font-bold text-brand-muted tracking-widest">Words</p>
+                </div>
+                <div class="p-3 bg-brand-bg rounded-lg text-center border border-brand-border">
+                    <p id="char-count" class="text-lg font-bold text-brand-primary">0</p>
+                    <p class="text-[0.6rem] uppercase font-bold text-brand-muted tracking-widest">Chars</p>
+                </div>
+                <div class="p-3 bg-brand-bg rounded-lg text-center border border-brand-border">
+                    <p id="read-time" class="text-lg font-bold text-brand-primary">0m</p>
+                    <p class="text-[0.6rem] uppercase font-bold text-brand-muted tracking-widest">Reads</p>
+                </div>
+            </div>
+            <textarea id="word-input" oninput="updateWordCount()" class="w-full h-64 input-minimal leading-relaxed resize-none p-4" placeholder="Type or paste text..."></textarea>
+        </div>
+    </template>
+
+    <template id="template-summarizer">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Notes Summarizer</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="label-minimal">Paste Notes</label>
+                    <textarea id="sum-input" class="w-full h-40 input-minimal leading-relaxed resize-none p-4" placeholder="Long paragraphs..."></textarea>
+                </div>
+                <button onclick="generateSummary()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90">Summarize</button>
+                <div id="sum-result-area" class="hidden">
+                    <div class="p-4 bg-brand-accent border border-brand-border rounded-lg text-sm font-medium leading-relaxed" id="sum-result-val"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        let state = {
+            activePage: 'home',
+            isDarkMode: false,
+            toolsUsed: new Set(),
+            gpaCourses: [{ grade: '4.0', credits: 3 }],
+            plannerSubjects: []
+        };
+
+        function showPage(pageId) {
+            state.activePage = pageId;
+            if (pageId !== 'home') state.toolsUsed.add(pageId);
+            
+            const container = document.getElementById('active-content');
+            const template = document.getElementById(`template-${pageId}`);
+            
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.innerHTML = '';
+                container.appendChild(template.content.cloneNode(true));
+                container.style.opacity = '1';
+                
+                // Initialize page specific DOM
+                if (pageId === 'gpa') renderGPACourses();
+                if (pageId === 'planner') renderPlannerSubjects();
+                
+                updateSidebar();
+                lucide.createIcons();
+            }, 100);
+        }
+
+        function updateSidebar() {
+            document.getElementById('tools-used-count').innerText = state.toolsUsed.size.toString().padStart(2, '0');
+        }
+
+        function toggleDarkMode() {
+            state.isDarkMode = !state.isDarkMode;
+            const toggle = document.getElementById('dark-mode-toggle');
+            if (state.isDarkMode) {
+                document.documentElement.classList.add('dark');
+                toggle.classList.remove('translate-x-0');
+                toggle.classList.add('translate-x-[18px]');
+            } else {
+                document.documentElement.classList.remove('dark');
+                toggle.classList.add('translate-x-0');
+                toggle.classList.remove('translate-x-[18px]');
+            }
+        }
+
+        // --- GPA Calculator Logic ---
+        function addGPACourse() {
+            state.gpaCourses.push({ grade: '4.0', credits: 3 });
+            renderGPACourses();
+        }
+
+        function removeGPACourse(index) {
+            state.gpaCourses.splice(index, 1);
+            renderGPACourses();
+        }
+
+        function renderGPACourses() {
+            const list = document.getElementById('gpa-courses-list');
+            if (!list) return;
+            list.innerHTML = '';
+            state.gpaCourses.forEach((c, i) => {
+                const item = document.createElement('div');
+                item.className = 'p-4 border border-brand-border rounded-lg relative';
+                item.innerHTML = `
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="label-minimal">Grade (0-4.0)</label>
+                            <input type="number" step="0.1" class="input-minimal" value="${c.grade}" onchange="updateGPAVal(${i}, 'grade', this.value)">
+                        </div>
+                        <div>
+                            <label class="label-minimal">Credits</label>
+                            <input type="number" class="input-minimal" value="${c.credits}" onchange="updateGPAVal(${i}, 'credits', this.value)">
+                        </div>
+                    </div>
+                    <button onclick="removeGPACourse(${i})" class="absolute -top-2 -right-2 bg-brand-surface border border-brand-border text-red-500 p-1 rounded-full shadow-sm">×</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function updateGPAVal(idx, field, val) {
+            state.gpaCourses[idx][field] = field === 'credits' ? parseInt(val) || 0 : val;
+        }
+
+        function calculateGPA() {
+            let totalPoints = 0;
+            let totalCredits = 0;
+            state.gpaCourses.forEach(c => {
+                totalPoints += parseFloat(c.grade) * c.credits;
+                totalCredits += c.credits;
+            });
+            const result = totalCredits > 0 ? totalPoints / totalCredits : 0;
+            document.getElementById('gpa-result-val').innerText = `${result.toFixed(2)} / 4.0`;
+            document.getElementById('gpa-result-area').classList.remove('hidden');
+        }
+
+        // --- Percentage Calculator Logic ---
+        function calculatePercentage() {
+            const total = parseFloat(document.getElementById('perc-total').value);
+            const obtained = parseFloat(document.getElementById('perc-obtained').value);
+            if (total > 0) {
+                const res = (obtained / total) * 100;
+                document.getElementById('perc-result-val').innerText = `${res.toFixed(1)}%`;
+                document.getElementById('perc-result-area').classList.remove('hidden');
+            }
+        }
+
+        // --- Study Planner Logic ---
+        function addPlannerSubject() {
+            const input = document.getElementById('plan-subj-input');
+            const val = input.value.trim();
+            if (val && !state.plannerSubjects.includes(val)) {
+                state.plannerSubjects.push(val);
+                input.value = '';
+                renderPlannerSubjects();
+            }
+        }
+
+        function renderPlannerSubjects() {
+            const container = document.getElementById('planner-subjects-tags');
+            if (!container) return;
+            container.innerHTML = '';
+            state.plannerSubjects.forEach(s => {
+                const tag = document.createElement('span');
+                tag.className = 'bg-brand-accent text-brand-primary px-3 py-1 rounded-lg text-[0.7rem] font-bold flex items-center';
+                tag.innerHTML = `${s} <button onclick="removePlannerSubject('${s}')" class="ml-2">×</button>`;
+                container.appendChild(tag);
+            });
+        }
+
+        function removePlannerSubject(subj) {
+            state.plannerSubjects = state.plannerSubjects.filter(s => s !== subj);
+            renderPlannerSubjects();
+        }
+
+        function generatePlan() {
+            const hours = parseInt(document.getElementById('plan-hours').value) || 4;
+            if (state.plannerSubjects.length === 0) return;
+            
+            const timePerSubject = hours / state.plannerSubjects.length;
+            const list = document.getElementById('planner-schedule-list');
+            list.innerHTML = '';
+            
+            let currentHour = 8;
+            state.plannerSubjects.forEach(s => {
+                const startStr = `${currentHour}:00`;
+                const mins = timePerSubject * 60;
+                let endHour = currentHour + Math.floor(mins / 60);
+                let endMins = Math.floor(mins % 60);
+                const endStr = `${endHour}:${endMins.toString().padStart(2, '0')}`;
+                
+                const item = document.createElement('div');
+                item.className = 'p-4 bg-brand-bg rounded-lg border border-brand-border';
+                item.innerHTML = `
+                    <p class="text-[0.65rem] font-bold text-brand-muted uppercase tracking-widest mb-1">${startStr} - ${endStr}</p>
+                    <p class="font-bold text-sm tracking-tight">${s}</p>
+                `;
+                list.appendChild(item);
+                currentHour = endHour;
+            });
+        }
+
+        // --- Word Counter Logic ---
+        function updateWordCount() {
+            const text = document.getElementById('word-input').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            const reads = Math.ceil(words / 200);
+            
+            document.getElementById('word-count').innerText = words;
+            document.getElementById('char-count').innerText = chars;
+            document.getElementById('read-time').innerText = `${reads}m`;
+        }
+
+        // --- Summarizer Logic ---
+        function generateSummary() {
+            const input = document.getElementById('sum-input').value;
+            const sentences = input.split(/[.!?]+/).filter(s => s.trim().length > 15);
+            const resArea = document.getElementById('sum-result-area');
+            const resVal = document.getElementById('sum-result-val');
+            
+            if (sentences.length <= 3) {
+                resVal.innerText = "Text is too short for a meaningful summary.";
+            } else {
+                const summary = [sentences[0], sentences[Math.floor(sentences.length / 2)], sentences[sentences.length - 1]].join('. ') + '.';
+                resVal.innerText = summary;
+            }
+            resArea.classList.remove('hidden');
+        }
+
+        // Launch Home
+        showPage('home');
+    </script>
+</body>
+</html>
