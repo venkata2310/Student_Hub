@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZKQ53V2NSH"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -86,7 +86,6 @@
             }
         }
         
-        /* Custom variable mapping for dark mode if tailwind play doesn't pick it up natively in style tag */
         :root {
             --brand-bg: #f8fafc;
             --brand-surface: #ffffff;
@@ -119,7 +118,7 @@
         .border-brand-border { border-color: var(--brand-border); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col overflow-x-hidden">
 
     <!-- Navbar -->
     <nav class="sticky top-0 z-50 h-16 bg-brand-surface border-b border-brand-border flex items-center shadow-sm">
@@ -129,62 +128,167 @@
                 <span>StudentHub</span>
             </div>
 
-            <button onclick="toggleDarkMode()" class="w-10 h-6 bg-brand-border rounded-full relative transition-colors">
-                <div id="dark-mode-toggle" class="absolute top-1 left-0.5 w-4 h-4 bg-brand-surface rounded-full shadow-sm transition-all transform translate-x-0"></div>
-            </button>
+            <div class="flex items-center space-x-4 md:space-x-8">
+                <div class="hidden sm:flex items-center space-x-6 mr-2">
+                    <a href="#about" class="text-[0.85rem] font-bold text-brand-muted hover:text-brand-primary transition-colors">About</a>
+                    <a href="#contact" class="text-[0.85rem] font-bold text-brand-muted hover:text-brand-primary transition-colors">Contact</a>
+                </div>
+                <button onclick="toggleDarkMode()" class="w-10 h-6 bg-brand-border rounded-full relative transition-colors" aria-label="Toggle Dark Mode">
+                    <div id="dark-mode-toggle" class="absolute top-1 left-0.5 w-4 h-4 bg-brand-surface rounded-full shadow-sm transition-all transform translate-x-0"></div>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="flex-1 w-full max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
-        <div class="space-y-6 overflow-hidden">
-            <!-- Top Ad -->
-            <div class="p-4 border border-dashed border-brand-border rounded-lg bg-brand-ads flex flex-col items-center justify-center min-h-[90px] text-brand-muted text-[10px] uppercase tracking-[2px] font-bold">
-                <p>Advertisement Space (Banner Top)</p>
-            </div>
-            
-            <div id="active-content" class="transition-opacity duration-200">
-                <!-- Content will be injected here -->
-            </div>
-        </div>
-
-        <!-- Sidebar -->
-        <aside class="hidden lg:flex flex-col gap-6">
-            <div class="bg-brand-primary text-white p-6 rounded-2xl shadow-sm">
-                <h4 class="text-[0.85rem] font-bold opacity-90 mb-4 tracking-wider uppercase">Your Session</h4>
-                <div class="grid grid-cols-2 gap-6">
-                    <div>
-                        <span class="block text-[0.7rem] opacity-70 mb-1 uppercase tracking-widest font-bold">Tools Used</span>
-                        <span id="tools-used-count" class="text-2xl font-bold">00</span>
-                    </div>
-                    <div>
-                        <span class="block text-[0.7rem] opacity-70 mb-1 uppercase tracking-widest font-bold">Time Saved</span>
-                        <span class="text-2xl font-bold">12m</span>
-                    </div>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col">
+        <main class="w-full max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+            <div class="space-y-6 overflow-hidden">
+                <!-- Top Ad -->
+                <div class="p-4 border border-dashed border-brand-border rounded-lg bg-brand-ads flex flex-col items-center justify-center min-h-[90px] text-brand-muted text-[10px] uppercase tracking-[2px] font-bold">
+                    <p>Advertisement Space (Banner Top)</p>
+                </div>
+                
+                <div id="active-content" class="transition-opacity duration-200">
+                    <!-- Dynamic Tool Content -->
                 </div>
             </div>
 
-            <div class="flex-1 p-4 border border-dashed border-brand-border rounded-lg bg-brand-ads flex flex-col items-center justify-center min-h-[400px] text-brand-muted text-[10px] uppercase tracking-[2px] font-bold">
-                <p>Advertisement Space (Sidebar Tall)</p>
+            <!-- Sidebar -->
+            <aside class="hidden lg:flex flex-col gap-6">
+                <div class="bg-brand-primary text-white p-6 rounded-2xl shadow-sm">
+                    <h4 class="text-[0.85rem] font-bold opacity-90 mb-4 tracking-wider uppercase">Your Session</h4>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <span class="block text-[0.7rem] opacity-70 mb-1 uppercase tracking-widest font-bold">Tools Used</span>
+                            <span id="tools-used-count" class="text-2xl font-bold">00</span>
+                        </div>
+                        <div>
+                            <span class="block text-[0.7rem] opacity-70 mb-1 uppercase tracking-widest font-bold">Time Saved</span>
+                            <span class="text-2xl font-bold">12m</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 p-4 border border-dashed border-brand-border rounded-lg bg-brand-ads flex flex-col items-center justify-center min-h-[400px] text-brand-muted text-[10px] uppercase tracking-[2px] font-bold">
+                    <p>Advertisement Space (Sidebar Tall)</p>
+                </div>
+            </aside>
+        </main>
+
+        <!-- About Section -->
+        <section id="about" class="w-full py-24 border-t border-brand-border bg-brand-surface scroll-mt-20">
+            <div class="max-w-4xl mx-auto px-6 text-center space-y-8">
+                <div class="inline-flex items-center justify-center p-3 bg-brand-accent rounded-full text-brand-primary mb-2">
+                    <i data-lucide="info" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-4xl font-extrabold text-brand-text tracking-tight">About Student Tools Hub</h2>
+                <div class="space-y-6 text-[1.05rem] text-brand-muted leading-relaxed max-w-2xl mx-auto">
+                    <p>
+                        Student Tools Hub is a curated collection of lightweight, browser-based utilities built to empower students in their academic journey. We offer highly functional tools like <strong>GPA Calculators</strong>, <strong>Study Planners</strong>, and <strong>Automated Summarizers</strong> at zero cost.
+                    </p>
+                    <p>
+                        Our goal is simple: <strong>to save you time and simplify your academic life.</strong> By automating repetitive calculations and planning tasks, we allow you to focus on what truly matters—your education.
+                    </p>
+                    <p>
+                        We prioritize your privacy above all else. Every calculation and process happens 100% locally in your browser, meaning your data never leaves your device.
+                    </p>
+                </div>
             </div>
-        </aside>
-    </main>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="w-full py-24 border-t border-brand-border bg-brand-bg scroll-mt-20">
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h2 class="text-4xl font-extrabold text-brand-text tracking-tight">Contact Us</h2>
+                        <p class="text-xl text-brand-muted leading-relaxed">
+                            Have feedback or suggestions? We'd love to hear from you.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="p-2 bg-brand-surface rounded-lg border border-brand-border text-brand-primary">
+                                <i data-lucide="mail" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-text">Email Address</h4>
+                                <a href="mailto:contact@studenttoolshub.com" class="text-brand-muted hover:text-brand-primary transition-colors">contact@studenttoolshub.com</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="p-2 bg-brand-surface rounded-lg border border-brand-border text-brand-primary">
+                                <i data-lucide="message-square" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-text">Social Support</h4>
+                                <p class="text-brand-muted italic">Direct support coming soon...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-minimal shadow-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-accent/30 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-brand-accent/50 transition-colors"></div>
+                    
+                    <form class="relative space-y-4" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent (Demo).'); this.reset();">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="label-minimal">Full Name</label>
+                                <input type="text" placeholder="Alex Johnson" class="input-minimal" required>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="label-minimal">Email Address</label>
+                                <input type="email" placeholder="alex@school.edu" class="input-minimal" required>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="label-minimal">Subject</label>
+                            <input type="text" placeholder="Suggestion for new tool" class="input-minimal" required>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="label-minimal">Message</label>
+                            <textarea rows="5" placeholder="Tell us how we can improve StudentHub..." class="input-minimal resize-none" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:translate-y-[-2px] hover:shadow-lg transition-all active:translate-y-0">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Footer -->
-    <footer class="h-16 bg-brand-surface border-t border-brand-border flex items-center shrink-0">
-        <div class="max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row justify-between items-center text-[0.8rem] text-brand-muted gap-4">
-            <div class="flex gap-6 font-medium">
-                <span>&copy; 2024 StudentHub Tools</span>
-                <a href="#" class="hover:text-brand-primary transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-brand-primary transition-colors">Terms of Service</a>
+    <footer class="py-12 bg-brand-surface border-t border-brand-border">
+        <div class="max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col md:items-start items-center gap-4">
+                <div class="flex items-center space-x-2 font-extrabold text-lg text-brand-primary">
+                    <span>🎓</span> 
+                    <span>StudentHub</span>
+                </div>
+                <p class="text-xs text-brand-muted max-w-[250px] text-center md:text-left leading-relaxed">
+                    Designed for students, by developers who care about productivity and privacy.
+                </p>
             </div>
-            <div class="font-bold text-brand-primary uppercase tracking-[0.1em]">
-                Productivity Reimagined
+            
+            <div class="flex flex-col items-center md:items-end gap-6">
+                <div class="flex gap-8 text-[0.8rem] text-brand-muted font-bold tracking-tight">
+                    <a href="#about" class="hover:text-brand-primary transition-colors uppercase">About</a>
+                    <a href="#contact" class="hover:text-brand-primary transition-colors uppercase">Contact</a>
+                    <a href="#" class="hover:text-brand-primary transition-colors uppercase">Privacy</a>
+                    <a href="#" class="hover:text-brand-primary transition-colors uppercase">Terms</a>
+                </div>
+                <div class="text-[0.65rem] text-brand-muted uppercase tracking-[0.2em] font-bold">
+                    &copy; 2026 Productivity Reimagined
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Templates -->
+    <!-- Templates for Tools -->
     <template id="template-home">
         <div class="space-y-6">
             <section class="space-y-1">
@@ -192,38 +296,39 @@
                 <p class="text-[0.95rem] text-brand-muted">Simple, privacy-focused calculators and planners for your academic success.</p>
             </section>
             <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div onclick="showPage('gpa')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
-                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">%</div>
+                <div onclick="showPage('gpa')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">%</div>
                     <h3 class="text-[1.1rem] font-bold">GPA Calculator</h3>
                     <p class="text-[0.85rem] text-brand-muted leading-relaxed">Calculate your Semester and Cumulative GPA with ease.</p>
                 </div>
-                <div onclick="showPage('percentage')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
-                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">#</div>
+                <div onclick="showPage('percentage')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">#</div>
                     <h3 class="text-[1.1rem] font-bold">Percentage Calculator</h3>
                     <p class="text-[0.85rem] text-brand-muted leading-relaxed">Quickly find your marks percentage and grade.</p>
                 </div>
-                <div onclick="showPage('planner')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
-                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">📅</div>
+                <div onclick="showPage('planner')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">📅</div>
                     <h3 class="text-[1.1rem] font-bold">Study Planner</h3>
                     <p class="text-[0.85rem] text-brand-muted leading-relaxed">Generate a personalized daily study timetable.</p>
                 </div>
-                <div onclick="showPage('wordcounter')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
-                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">T</div>
+                <div onclick="showPage('wordcounter')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">T</div>
                     <h3 class="text-[1.1rem] font-bold">Word Counter</h3>
                     <p class="text-[0.85rem] text-brand-muted leading-relaxed">Count words, characters, and reading time instantly.</p>
                 </div>
-                <div onclick="showPage('summarizer')" class="card-minimal cursor-pointer hover:border-brand-primary hover:-translate-y-0.5 shadow-sm space-y-2">
-                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm">S</div>
+                <div onclick="showPage('summarizer')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">S</div>
                     <h3 class="text-[1.1rem] font-bold">Notes Summarizer</h3>
                     <p class="text-[0.85rem] text-brand-muted leading-relaxed">Condense long paragraphs into key points.</p>
                 </div>
             </section>
-            <div class="card-minimal flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div class="space-y-2 max-w-lg">
+            <div class="card-minimal flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-hidden relative">
+                <div class="absolute -right-4 -bottom-4 w-40 h-40 bg-brand-accent/50 rounded-full blur-3xl"></div>
+                <div class="space-y-2 max-w-lg relative">
                     <h2 class="text-xl font-bold">Privacy First Design</h2>
-                    <p class="text-sm text-brand-muted">All tools process your data locally in your browser session. We don't store or track your individual results.</p>
+                    <p class="text-sm text-brand-muted leading-relaxed">All tools process your data locally in your browser session. We don't store or track your individual results.</p>
                 </div>
-                <div class="p-3 bg-brand-accent rounded-full text-brand-primary">
+                <div class="p-3 bg-brand-accent rounded-full text-brand-primary shadow-inner relative">
                     <i data-lucide="graduation-cap" class="w-10 h-10"></i>
                 </div>
             </div>
@@ -234,14 +339,12 @@
         <div class="card-minimal space-y-6">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-[1.25rem] font-bold">GPA Calculator</h2>
-                <button onclick="addGPACourse()" class="bg-brand-primary text-white text-[0.85rem] font-bold px-4 py-1.5 rounded-lg hover:opacity-90">+ Add Subject</button>
+                <button onclick="addGPACourse()" class="bg-brand-primary text-white text-[0.85rem] font-bold px-4 py-1.5 rounded-lg hover:opacity-90 shadow-sm">+ Add Subject</button>
             </div>
-            <div id="gpa-courses-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- GPA Rows -->
-            </div>
+            <div id="gpa-courses-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             <button onclick="calculateGPA()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90 shadow-sm transition-all">Calculate Result</button>
             <div id="gpa-result-area" class="hidden">
-                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border">
+                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <span class="font-semibold text-sm">Semester GPA</span>
                     <span id="gpa-result-val" class="text-xl font-bold text-brand-primary">0.00 / 4.0</span>
                 </div>
@@ -253,18 +356,18 @@
         <div class="card-minimal space-y-6">
             <h2 class="text-[1.25rem] font-bold">Percentage Calculator</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
+                <div class="space-y-1.5">
                     <label class="label-minimal">Total Marks</label>
                     <input type="number" id="perc-total" class="input-minimal" placeholder="e.g. 500">
                 </div>
-                <div>
+                <div class="space-y-1.5">
                     <label class="label-minimal">Obtained Marks</label>
                     <input type="number" id="perc-obtained" class="input-minimal" placeholder="e.g. 425">
                 </div>
             </div>
             <button onclick="calculatePercentage()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90 shadow-sm">Get Percentage</button>
             <div id="perc-result-area" class="hidden">
-                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border">
+                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <span class="font-semibold text-sm">Calculation Result</span>
                     <span id="perc-result-val" class="text-xl font-bold text-brand-primary">0%</span>
                 </div>
@@ -277,18 +380,18 @@
             <h2 class="text-[1.25rem] font-bold">Study Timetable</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-4">
-                    <div>
+                    <div class="space-y-1.5">
                         <label class="label-minimal">Available Hours</label>
                         <input type="number" id="plan-hours" class="input-minimal" value="6">
                     </div>
-                    <div>
+                    <div class="space-y-1.5">
                         <label class="label-minimal">Add Subjects</label>
                         <div class="flex gap-2">
                             <input type="text" id="plan-subj-input" class="input-minimal" placeholder="e.g. History">
                             <button onclick="addPlannerSubject()" class="bg-brand-primary text-white px-3 py-1.5 rounded-lg font-bold hover:opacity-90">+</button>
                         </div>
                     </div>
-                    <div id="planner-subjects-tags" class="flex flex-wrap gap-2"></div>
+                    <div id="planner-subjects-tags" class="flex flex-wrap gap-2 min-h-[32px]"></div>
                     <button onclick="generatePlan()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90">Generate Plan</button>
                 </div>
                 <div class="space-y-4">
@@ -328,13 +431,13 @@
         <div class="card-minimal space-y-6">
             <h2 class="text-[1.25rem] font-bold">Notes Summarizer</h2>
             <div class="space-y-4">
-                <div>
+                <div class="space-y-1.5">
                     <label class="label-minimal">Paste Notes</label>
                     <textarea id="sum-input" class="w-full h-40 input-minimal leading-relaxed resize-none p-4" placeholder="Long paragraphs..."></textarea>
                 </div>
                 <button onclick="generateSummary()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90">Summarize</button>
                 <div id="sum-result-area" class="hidden">
-                    <div class="p-4 bg-brand-accent border border-brand-border rounded-lg text-sm font-medium leading-relaxed" id="sum-result-val"></div>
+                    <div class="p-4 bg-brand-accent border border-brand-border rounded-lg text-sm font-medium leading-relaxed animate-in fade-in" id="sum-result-val"></div>
                 </div>
             </div>
         </div>
@@ -368,11 +471,17 @@
                 
                 updateSidebar();
                 lucide.createIcons();
+                
+                // If switching tools, scroll to top of main area
+                if (pageId !== 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             }, 100);
         }
 
         function updateSidebar() {
-            document.getElementById('tools-used-count').innerText = state.toolsUsed.size.toString().padStart(2, '0');
+            const countEl = document.getElementById('tools-used-count');
+            if (countEl) countEl.innerText = state.toolsUsed.size.toString().padStart(2, '0');
         }
 
         function toggleDarkMode() {
@@ -418,7 +527,7 @@
                             <input type="number" class="input-minimal" value="${c.credits}" onchange="updateGPAVal(${i}, 'credits', this.value)">
                         </div>
                     </div>
-                    <button onclick="removeGPACourse(${i})" class="absolute -top-2 -right-2 bg-brand-surface border border-brand-border text-red-500 p-1 rounded-full shadow-sm">×</button>
+                    <button onclick="removeGPACourse(${i})" class="absolute -top-2 -right-2 bg-brand-surface border border-brand-border text-red-500 p-1 rounded-full shadow-sm hover:bg-red-50 transition-colors">×</button>
                 `;
                 list.appendChild(item);
             });
@@ -468,8 +577,8 @@
             container.innerHTML = '';
             state.plannerSubjects.forEach(s => {
                 const tag = document.createElement('span');
-                tag.className = 'bg-brand-accent text-brand-primary px-3 py-1 rounded-lg text-[0.7rem] font-bold flex items-center';
-                tag.innerHTML = `${s} <button onclick="removePlannerSubject('${s}')" class="ml-2">×</button>`;
+                tag.className = 'bg-brand-accent text-brand-primary px-3 py-1 rounded-lg text-[0.7rem] font-bold flex items-center transition-all hover:bg-brand-primary hover:text-white';
+                tag.innerHTML = `${s} <button onclick="removePlannerSubject('${s}')" class="ml-2 font-black transition-colors">×</button>`;
                 container.appendChild(tag);
             });
         }
@@ -496,10 +605,10 @@
                 const endStr = `${endHour}:${endMins.toString().padStart(2, '0')}`;
                 
                 const item = document.createElement('div');
-                item.className = 'p-4 bg-brand-bg rounded-lg border border-brand-border';
+                item.className = 'p-4 bg-brand-surface rounded-lg border border-brand-border shadow-sm animate-in fade-in slide-in-from-right-4 duration-300';
                 item.innerHTML = `
                     <p class="text-[0.65rem] font-bold text-brand-muted uppercase tracking-widest mb-1">${startStr} - ${endStr}</p>
-                    <p class="font-bold text-sm tracking-tight">${s}</p>
+                    <p class="font-bold text-sm tracking-tight text-brand-text">${s}</p>
                 `;
                 list.appendChild(item);
                 currentHour = endHour;
@@ -534,7 +643,7 @@
             resArea.classList.remove('hidden');
         }
 
-        // Launch Home
+        // Initialize Home
         showPage('home');
     </script>
 </body>
