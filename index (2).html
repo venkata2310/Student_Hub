@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Tools Hub | GPA, Planner & More</title>
+    <meta name="description" content="Free, fast, and privacy-focused tools for students. Calculate GPA, percentage, plan your studies, and count words instantly.">
+    <meta name="keywords" content="GPA Calculator, Percentage Calculator, Study Planner, Word Counter, Attendance Calculator, Student Tools">
+    
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#f8fafc',
+                            surface: '#ffffff',
+                            primary: '#2563eb',
+                            text: '#0f172a',
+                            muted: '#64748b',
+                            border: '#e2e8f0',
+                            accent: '#eff6ff',
+                            ads: '#f1f5f9'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-sans antialiased bg-brand-bg text-brand-text transition-colors duration-300;
+            }
+            .dark {
+                --brand-bg: #020617;
+                --brand-surface: #0f172a;
+                --brand-primary: #3b82f6;
+                --brand-text: #f8fafc;
+                --brand-muted: #94a3b8;
+                --brand-border: #1e293b;
+                --brand-accent: #1e293b;
+                --brand-ads: #0f172a;
+            }
+            .dark body {
+                @apply bg-[var(--brand-bg)] text-[var(--brand-text)];
+            }
+            .dark .bg-brand-surface { @apply bg-[var(--brand-surface)]; }
+            .dark .bg-brand-bg { @apply bg-[var(--brand-bg)]; }
+            .dark .text-brand-text { @apply text-[var(--brand-text)]; }
+            .dark .text-brand-muted { @apply text-[var(--brand-muted)]; }
+            .dark .border-brand-border { @apply border-[var(--brand-border)]; }
+            .dark .bg-brand-accent { @apply bg-[var(--brand-accent)]; }
+            .dark .bg-brand-ads { @apply bg-[var(--brand-ads)]; }
+            .dark .text-brand-primary { @apply text-[var(--brand-primary)]; }
+        }
+
+        @layer components {
+            .card-minimal {
+                @apply bg-brand-surface border border-brand-border rounded-xl p-6 transition-all;
+            }
+            .input-minimal {
+                @apply w-full p-2.5 border border-brand-border rounded-lg text-sm bg-brand-surface focus:ring-2 focus:ring-brand-primary focus:border-brand-primary outline-none transition-all;
+            }
+            .label-minimal {
+                @apply block text-[11px] font-bold uppercase text-brand-muted mb-1.5 tracking-wider;
+            }
+        }
+        
+        :root {
+            --brand-bg: #f8fafc;
+            --brand-surface: #ffffff;
+            --brand-primary: #2563eb;
+            --brand-text: #0f172a;
+            --brand-muted: #64748b;
+            --brand-border: #e2e8f0;
+            --brand-accent: #eff6ff;
+            --brand-ads: #f1f5f9;
+        }
+
+        .dark {
+            --brand-bg: #020617;
+            --brand-surface: #0f172a;
+            --brand-primary: #3b82f6;
+            --brand-text: #f8fafc;
+            --brand-muted: #94a3b8;
+            --brand-border: #1e293b;
+            --brand-accent: #1e293b;
+            --brand-ads: #0f172a;
+        }
+
+        .bg-brand-bg { background-color: var(--brand-bg); }
+        .bg-brand-surface { background-color: var(--brand-surface); }
+        .bg-brand-accent { background-color: var(--brand-accent); }
+        .bg-brand-ads { background-color: var(--brand-ads); }
+        .text-brand-text { color: var(--brand-text); }
+        .text-brand-muted { color: var(--brand-muted); }
+        .text-brand-primary { color: var(--brand-primary); }
+        .border-brand-border { border-color: var(--brand-border); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 h-16 bg-brand-surface border-b border-brand-border flex items-center shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
+            <div class="flex items-center cursor-pointer font-extrabold text-2xl text-brand-primary tracking-tight hover:opacity-90 transition-opacity" onclick="showPage('home')">
+                <span>StudentHub</span>
+            </div>
+
+            <div class="flex items-center space-x-4 md:space-x-8">
+                <div class="hidden sm:flex items-center space-x-6 mr-2">
+                    <a href="#about" class="text-[0.85rem] font-bold text-brand-muted hover:text-brand-primary transition-colors">About</a>
+                    <a href="#contact" class="text-[0.85rem] font-bold text-brand-muted hover:text-brand-primary transition-colors">Contact</a>
+                </div>
+                <button onclick="toggleDarkMode()" class="w-12 h-7 bg-brand-border rounded-full relative transition-all duration-300 flex items-center" aria-label="Toggle Dark Mode">
+                    <div id="dark-mode-toggle" class="absolute left-1 w-5 h-5 bg-brand-surface rounded-full shadow-sm transition-all duration-300 z-10 flex items-center justify-center">
+                        <i id="theme-icon" data-lucide="sun" class="w-3.5 h-3.5 text-orange-400 transition-colors"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col">
+        <main class="w-full max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+            <div class="space-y-6 overflow-hidden">
+                <div id="active-content" class="transition-opacity duration-200">
+                    <!-- Dynamic Tool Content -->
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="hidden lg:flex flex-col gap-6">
+                <div class="bg-brand-primary text-white p-6 rounded-2xl shadow-sm">
+                    <h4 class="text-[0.85rem] font-bold opacity-90 mb-4 tracking-wider uppercase">Your Session</h4>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <span class="block text-[0.7rem] opacity-70 mb-1 uppercase tracking-widest font-bold">Tools Used</span>
+                            <span id="tools-used-count" class="text-2xl font-bold">00</span>
+                        </div>
+                        <div>
+                            <span class="block text-[0.7rem] opacity-70 mb-1 uppercase tracking-widest font-bold">Time Saved</span>
+                            <span class="text-2xl font-bold">12m</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- About Section -->
+        <section id="about" class="w-full py-24 border-t border-brand-border bg-brand-surface scroll-mt-20">
+            <div class="max-w-4xl mx-auto px-6 text-center space-y-8">
+                <div class="inline-flex items-center justify-center p-3 bg-brand-accent rounded-full text-brand-primary mb-2">
+                    <i data-lucide="info" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-4xl font-extrabold text-brand-text tracking-tight">About Student Tools Hub</h2>
+                <div class="space-y-6 text-[1.05rem] text-brand-muted leading-relaxed max-w-2xl mx-auto">
+                    <p>
+                        Student Tools Hub is a curated collection of lightweight, browser-based utilities built to empower students in their academic journey. We offer highly functional tools like <strong>GPA Calculators</strong>, <strong>Study Planners</strong>, and <strong>Automated Summarizers</strong> at zero cost.
+                    </p>
+                    <p>
+                        Our goal is simple: <strong>to save you time and simplify your academic life.</strong> By automating repetitive calculations and planning tasks, we allow you to focus on what truly matters—your education.
+                    </p>
+                    <p>
+                        We prioritize your privacy above all else. Every calculation and process happens 100% locally in your browser, meaning your data never leaves your device.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="w-full py-24 border-t border-brand-border bg-brand-bg scroll-mt-20">
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h2 class="text-4xl font-extrabold text-brand-text tracking-tight">Contact Us</h2>
+                        <p class="text-xl text-brand-muted leading-relaxed">
+                            Have feedback or suggestions? We'd love to hear from you.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="p-2 bg-brand-surface rounded-lg border border-brand-border text-brand-primary">
+                                <i data-lucide="mail" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-text">Email Address</h4>
+                                <p class="text-brand-muted italic">Support coming soon...</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="p-2 bg-brand-surface rounded-lg border border-brand-border text-brand-primary">
+                                <i data-lucide="message-square" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-text">Social Support</h4>
+                                <p class="text-brand-muted italic">Direct support coming soon...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-minimal shadow-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-accent/30 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-brand-accent/50 transition-colors"></div>
+                    
+                    <form class="relative space-y-4" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent (Demo).'); this.reset();">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="label-minimal">Full Name</label>
+                                <input type="text" placeholder="Alex Johnson" class="input-minimal" required>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="label-minimal">Email Address</label>
+                                <input type="email" placeholder="alex@school.edu" class="input-minimal" required>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="label-minimal">Subject</label>
+                            <input type="text" placeholder="Suggestion for new tool" class="input-minimal" required>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="label-minimal">Message</label>
+                            <textarea rows="5" placeholder="Tell us how we can improve StudentHub..." class="input-minimal resize-none" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:translate-y-[-2px] hover:shadow-lg transition-all active:translate-y-0">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-brand-surface border-t border-brand-border">
+        <div class="max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col md:items-start items-center gap-4">
+                <div class="flex items-center font-extrabold text-xl text-brand-primary tracking-tight">
+                    <span>StudentHub</span>
+                </div>
+                <p class="text-xs text-brand-muted max-w-[250px] text-center md:text-left leading-relaxed">
+                    Designed for students, by developers who care about productivity and privacy.
+                </p>
+            </div>
+            
+            <div class="flex flex-col items-center md:items-end gap-6">
+                <div class="flex gap-8 text-[0.8rem] text-brand-muted font-bold tracking-tight">
+                    <a href="#about" class="hover:text-brand-primary transition-colors uppercase">About</a>
+                    <a href="#contact" class="hover:text-brand-primary transition-colors uppercase">Contact</a>
+                    <a href="#" class="hover:text-brand-primary transition-colors uppercase">Privacy</a>
+                    <a href="#" class="hover:text-brand-primary transition-colors uppercase">Terms</a>
+                </div>
+                <div class="text-[0.65rem] text-brand-muted uppercase tracking-[0.2em] font-bold">
+                    &copy; 2026 Productivity Reimagined
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Templates for Tools -->
+    <template id="template-home">
+        <div class="space-y-6">
+            <section class="space-y-1">
+                <h1 class="text-[1.75rem] font-extrabold text-brand-text leading-tight">Free Student Tools</h1>
+                <p class="text-[0.95rem] text-brand-muted">Simple, privacy-focused calculators and planners for your academic success.</p>
+            </section>
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div onclick="showPage('gpa')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">%</div>
+                    <h3 class="text-[1.1rem] font-bold">GPA Calculator</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Calculate your Semester and Cumulative GPA with ease.</p>
+                </div>
+                <div onclick="showPage('cgpa')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">C</div>
+                    <h3 class="text-[1.1rem] font-bold">CGPA Calculator</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Calculate your overall Cumulative Grade Point Average.</p>
+                </div>
+                <div onclick="showPage('percentage')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">#</div>
+                    <h3 class="text-[1.1rem] font-bold">Percentage Calculator</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Quickly find your marks percentage and grade.</p>
+                </div>
+                <div onclick="showPage('attendance')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">✅</div>
+                    <h3 class="text-[1.1rem] font-bold">Attendance Calculator</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Check if you meet the required attendance criteria.</p>
+                </div>
+                <div onclick="showPage('planner')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">📅</div>
+                    <h3 class="text-[1.1rem] font-bold">Study Planner</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Generate a personalized daily study timetable.</p>
+                </div>
+                <div onclick="showPage('wordcounter')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">T</div>
+                    <h3 class="text-[1.1rem] font-bold">Word Counter</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Count words, characters, and reading time instantly.</p>
+                </div>
+                <div onclick="showPage('summarizer')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">S</div>
+                    <h3 class="text-[1.1rem] font-bold">Notes Summarizer</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Condense long paragraphs into key points.</p>
+                </div>
+                <div onclick="showPage('cellcraft')" class="card-minimal cursor-pointer border-brand-border hover:border-brand-primary hover:-translate-y-1 shadow-sm space-y-2 group transition-all">
+                    <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-brand-primary font-bold text-sm group-hover:bg-brand-primary group-hover:text-white transition-colors">🧬</div>
+                    <h3 class="text-[1.1rem] font-bold">CellCraft 🧬</h3>
+                    <p class="text-[0.85rem] text-brand-muted leading-relaxed">Calculate media formulations, translate DNA codons, and run OD dilution calculations.</p>
+                </div>
+            </section>
+            <div class="card-minimal flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-hidden relative">
+                <div class="absolute -right-4 -bottom-4 w-40 h-40 bg-brand-accent/50 rounded-full blur-3xl"></div>
+                <div class="space-y-2 max-w-lg relative">
+                    <h2 class="text-xl font-bold">Privacy First Design</h2>
+                    <p class="text-sm text-brand-muted leading-relaxed">All tools process your data locally in your browser session. We don't store or track your individual results.</p>
+                </div>
+                <div class="p-3 bg-brand-accent rounded-full text-brand-primary shadow-inner relative">
+                    <i data-lucide="graduation-cap" class="w-10 h-10"></i>
+                </div>
+            </div>
+
+            <!-- Recent Updates Section -->
+            <section class="mt-12 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <h2 class="text-[11px] font-bold uppercase text-brand-muted tracking-wider">Recent Updates</h2>
+                
+                <div class="space-y-6 pt-2">
+                    <div class="space-y-2">
+                        <p class="text-[0.8rem] font-bold text-brand-primary tracking-wide">24 April 2026</p>
+                        <ul class="space-y-2 text-[0.85rem] text-brand-muted leading-relaxed">
+                            <li class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-primary shadow-[0_0_8px_rgba(59,130,246,0.3)]"></span>
+                                Attendance added
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-primary shadow-[0_0_8px_rgba(59,130,246,0.3)]"></span>
+                                Timetable fixed
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-primary shadow-[0_0_8px_rgba(59,130,246,0.3)]"></span>
+                                UI improved
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <template id="template-gpa">
+        <div class="card-minimal space-y-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-[1.25rem] font-bold">Semester GPA Calculator</h2>
+                <button onclick="addGPACourse()" class="bg-brand-primary text-white text-[0.85rem] font-bold px-4 py-1.5 rounded-lg hover:opacity-90 shadow-sm">+ Add Subject</button>
+            </div>
+            <div id="gpa-courses-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <button onclick="calculateGPA()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90 shadow-sm transition-all">Calculate Result</button>
+            <div id="gpa-result-area" class="hidden">
+                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <span class="font-semibold text-sm">Semester GPA</span>
+                    <span id="gpa-result-val" class="text-xl font-bold text-brand-primary">0.00 / 4.0</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-cgpa">
+        <div class="card-minimal space-y-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-[1.25rem] font-bold">CGPA Calculator</h2>
+                <button onclick="addCGPACourse()" class="bg-brand-primary text-white text-[0.85rem] font-bold px-4 py-1.5 rounded-lg hover:opacity-90 shadow-sm">+ Add Subject</button>
+            </div>
+            <div class="bg-brand-accent p-4 rounded-lg border border-brand-border mb-4">
+                <p class="text-xs text-brand-muted leading-relaxed">
+                    Enter the grade points (e.g., 8.5) and credits for each subject to calculate your Cumulative Grade Point Average.
+                </p>
+            </div>
+            <div id="cgpa-courses-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <button onclick="calculateCGPA()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90 shadow-sm transition-all">Calculate CGPA</button>
+            <div id="cgpa-result-area" class="hidden">
+                <div class="bg-brand-bg p-6 rounded-xl flex flex-col items-center border border-brand-border animate-in zoom-in duration-300">
+                    <span class="label-minimal">Your Final CGPA</span>
+                    <span id="cgpa-result-val" class="text-4xl font-black text-brand-primary">0.00</span>
+                    <p id="cgpa-feedback" class="mt-2 text-sm text-brand-muted font-medium"></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-percentage">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Percentage Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-1.5">
+                    <label class="label-minimal">Total Marks</label>
+                    <input type="number" id="perc-total" class="input-minimal" placeholder="e.g. 500">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="label-minimal">Obtained Marks</label>
+                    <input type="number" id="perc-obtained" class="input-minimal" placeholder="e.g. 425">
+                </div>
+            </div>
+            <button onclick="calculatePercentage()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90 shadow-sm">Get Percentage</button>
+            <div id="perc-result-area" class="hidden">
+                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <span class="font-semibold text-sm">Calculation Result</span>
+                    <span id="perc-result-val" class="text-xl font-bold text-brand-primary">0%</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-attendance">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Attendance Calculator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-1.5">
+                    <label class="label-minimal">Total Classes</label>
+                    <input type="number" id="att-total" class="input-minimal" placeholder="e.g. 50">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="label-minimal">Classes Attended</label>
+                    <input type="number" id="att-attended" class="input-minimal" placeholder="e.g. 35">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="label-minimal">Required % (Goal)</label>
+                    <input type="number" id="att-goal" class="input-minimal" placeholder="e.g. 75" value="75">
+                </div>
+            </div>
+            <button onclick="calculateAttendance()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90 shadow-sm transition-all">Calculate Attendance</button>
+            
+            <div id="att-result-area" class="hidden space-y-4">
+                <div class="bg-brand-bg p-4 rounded-lg flex justify-between items-center border border-brand-border animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <span class="font-semibold text-sm">Current Attendance</span>
+                    <span id="att-current-perc" class="text-xl font-bold text-brand-primary">0%</span>
+                </div>
+                <div id="att-status-card" class="p-6 rounded-xl border border-brand-border animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div class="flex items-start space-x-4">
+                        <div id="att-status-icon" class="p-3 rounded-full">
+                            <!-- Icon injected by JS -->
+                        </div>
+                        <div class="space-y-1">
+                            <h4 id="att-status-title" class="font-bold text-lg">Status</h4>
+                            <p id="att-status-desc" class="text-brand-muted text-sm leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-planner">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Study Timetable</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="label-minimal">Available Hours</label>
+                        <input type="number" id="plan-hours" class="input-minimal" value="6">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="label-minimal">Add Subjects</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="plan-subj-input" class="input-minimal" placeholder="e.g. History">
+                            <button onclick="addPlannerSubject()" class="bg-brand-primary text-white px-3 py-1.5 rounded-lg font-bold hover:opacity-90">+</button>
+                        </div>
+                    </div>
+                    <div id="planner-subjects-tags" class="flex flex-wrap gap-2 min-h-[32px]"></div>
+                    <button onclick="generatePlan()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90">Generate Plan</button>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-brand-muted">Timeline</h3>
+                    <div id="planner-schedule-list" class="space-y-3">
+                        <div class="h-full flex flex-col items-center justify-center p-8 bg-brand-bg rounded-lg border border-dashed border-brand-border text-brand-muted text-xs">
+                            <p>Add subjects to generate schedule</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-wordcounter">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Word Counter</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="p-3 bg-brand-bg rounded-lg text-center border border-brand-border">
+                    <p id="word-count" class="text-lg font-bold text-brand-primary">0</p>
+                    <p class="text-[0.6rem] uppercase font-bold text-brand-muted tracking-widest">Words</p>
+                </div>
+                <div class="p-3 bg-brand-bg rounded-lg text-center border border-brand-border">
+                    <p id="char-count" class="text-lg font-bold text-brand-primary">0</p>
+                    <p class="text-[0.6rem] uppercase font-bold text-brand-muted tracking-widest">Chars</p>
+                </div>
+                <div class="p-3 bg-brand-bg rounded-lg text-center border border-brand-border">
+                    <p id="read-time" class="text-lg font-bold text-brand-primary">0m</p>
+                    <p class="text-[0.6rem] uppercase font-bold text-brand-muted tracking-widest">Reads</p>
+                </div>
+            </div>
+            <textarea id="word-input" oninput="updateWordCount()" class="w-full h-64 input-minimal leading-relaxed resize-none p-4" placeholder="Type or paste text..."></textarea>
+        </div>
+    </template>
+
+    <template id="template-summarizer">
+        <div class="card-minimal space-y-6">
+            <h2 class="text-[1.25rem] font-bold">Notes Summarizer</h2>
+            <div class="space-y-4">
+                <div class="space-y-1.5">
+                    <label class="label-minimal">Paste Notes</label>
+                    <textarea id="sum-input" class="w-full h-40 input-minimal leading-relaxed resize-none p-4" placeholder="Long paragraphs..."></textarea>
+                </div>
+                <button onclick="generateSummary()" class="w-full py-3 bg-brand-primary text-white font-bold rounded-lg hover:opacity-90">Summarize</button>
+                <div id="sum-result-area" class="hidden">
+                    <div class="p-4 bg-brand-accent border border-brand-border rounded-lg text-sm font-medium leading-relaxed animate-in fade-in" id="sum-result-val"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-cellcraft">
+        <div class="space-y-6">
+            <!-- Back to Home -->
+            <div class="flex items-center justify-between">
+                <button onclick="showPage('home')" class="inline-flex items-center gap-2 text-xs font-bold text-brand-muted hover:text-brand-primary transition-colors uppercase tracking-wider">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Tools
+                </button>
+                <span class="text-[10px] uppercase bg-brand-primary/10 text-brand-primary px-2.5 py-1 rounded-md font-bold tracking-widest">🧬 CellCraft Suite</span>
+            </div>
+
+            <!-- Page Title -->
+            <div class="space-y-1">
+                <h1 class="text-2xl font-extrabold text-brand-text tracking-tight">CellCraft 🧬</h1>
+                <p class="text-xs text-brand-muted">The ultimate biology lab prep and molecular toolkit.</p>
+            </div>
+
+            <!-- Subtool Navigation -->
+            <div class="flex flex-wrap border-b border-brand-border">
+                <button onclick="switchCellCraftSubtool('mediaprep')" id="tab-mediaprep" class="px-4 py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 border-brand-primary text-brand-primary transition-all">
+                    🧪 Media Prep Calc
+                </button>
+                <button onclick="switchCellCraftSubtool('codoncrafter')" id="tab-codoncrafter" class="px-4 py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-brand-muted hover:text-brand-text transition-all">
+                    🧬 Codon Crafter
+                </button>
+                <button onclick="switchCellCraftSubtool('oddilution')" id="tab-oddilution" class="px-4 py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-brand-muted hover:text-brand-text transition-all">
+                    📊 OD Dilution Calculator
+                </button>
+            </div>
+
+            <!-- Content Area for Subtools -->
+            <div id="cellcraft-subtool-container" class="space-y-6">
+                <!-- Media Prep Subtool -->
+                <div id="subtool-mediaprep" class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
+                    <div class="card-minimal space-y-6">
+                        <div class="space-y-1.5">
+                            <label class="label-minimal">Select Media Base Recipe</label>
+                            <div class="grid grid-cols-2 gap-2" id="media-base-presets">
+                                <button onclick="selectPresetMedia('lb_broth')" id="btn-media-lb_broth" class="media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-primary bg-brand-accent text-brand-primary">
+                                    LB Broth
+                                    <span class="block text-[10px] font-normal text-brand-muted mt-0.5">20 g/L</span>
+                                </button>
+                                <button onclick="selectPresetMedia('lb_agar')" id="btn-media-lb_agar" class="media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-border hover:border-brand-primary">
+                                    LB Agar
+                                    <span class="block text-[10px] font-normal text-brand-muted mt-0.5">35 g/L</span>
+                                </button>
+                                <button onclick="selectPresetMedia('tsb')" id="btn-media-tsb" class="media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-border hover:border-brand-primary">
+                                    TSB
+                                    <span class="block text-[10px] font-normal text-brand-muted mt-0.5">30 g/L</span>
+                                </button>
+                                <button onclick="selectPresetMedia('macconkey')" id="btn-media-macconkey" class="media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-border hover:border-brand-primary">
+                                    MacConkey Agar
+                                    <span class="block text-[10px] font-normal text-brand-muted mt-0.5">50 g/L</span>
+                                </button>
+                                <button onclick="selectPresetMedia('nutrient_broth')" id="btn-media-nutrient_broth" class="media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-border hover:border-brand-primary">
+                                    Nutrient Broth
+                                    <span class="block text-[10px] font-normal text-brand-muted mt-0.5">13 g/L</span>
+                                </button>
+                                <button onclick="selectPresetMedia('custom')" id="btn-media-custom" class="media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-border hover:border-brand-primary">
+                                    Custom Media
+                                    <span class="block text-[10px] font-normal text-brand-muted mt-0.5">User Defined</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="label-minimal">Target Volume (mL)</label>
+                                <input type="number" id="media-volume" class="input-minimal" value="250" oninput="calculateMediaRecipe()" min="1">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="label-minimal">Base Concentration (g/L)</label>
+                                <input type="number" id="media-base-conc" class="input-minimal" value="20" oninput="onCustomBaseConcChange()" min="0.1" step="0.1">
+                            </div>
+                        </div>
+
+                        <!-- Quick Volume Chips -->
+                        <div class="space-y-1.5">
+                            <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider">Quick Volume Presets</span>
+                            <div class="flex flex-wrap gap-1.5">
+                                <button onclick="setMediaVolume(50)" class="px-2.5 py-1 text-xs font-bold bg-brand-accent text-brand-primary rounded-md border border-transparent hover:border-brand-primary transition-all">50 mL</button>
+                                <button onclick="setMediaVolume(100)" class="px-2.5 py-1 text-xs font-bold bg-brand-accent text-brand-primary rounded-md border border-transparent hover:border-brand-primary transition-all">100 mL</button>
+                                <button onclick="setMediaVolume(250)" class="px-2.5 py-1 text-xs font-bold bg-brand-accent text-brand-primary rounded-md border border-transparent hover:border-brand-primary transition-all">250 mL</button>
+                                <button onclick="setMediaVolume(500)" class="px-2.5 py-1 text-xs font-bold bg-brand-accent text-brand-primary rounded-md border border-transparent hover:border-brand-primary transition-all">500 mL</button>
+                                <button onclick="setMediaVolume(1000)" class="px-2.5 py-1 text-xs font-bold bg-brand-accent text-brand-primary rounded-md border border-transparent hover:border-brand-primary transition-all">1000 mL</button>
+                            </div>
+                        </div>
+
+                        <!-- Agar Checkbox -->
+                        <div class="p-4 border border-brand-border rounded-xl bg-brand-accent/30 space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" id="media-has-agar" onchange="toggleAgarOption()" class="w-4 h-4 text-brand-primary border-brand-border rounded focus:ring-brand-primary bg-brand-surface">
+                                <span class="text-sm font-bold text-brand-text">Add Agar Powder? 🧫</span>
+                            </label>
+                            
+                            <div id="media-agar-input-container" class="hidden animate-in slide-in-from-top-1 duration-200">
+                                <div class="grid grid-cols-1 gap-1.5">
+                                    <label class="label-minimal">Agar Concentration (g/L)</label>
+                                    <input type="number" id="media-agar-conc" class="input-minimal" value="15" oninput="calculateMediaRecipe()" min="0.1" step="0.1">
+                                    <span class="text-[10px] text-brand-muted">Default agar concentration is 15 g/L (1.5% w/v)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipe Results Card -->
+                    <div class="card-minimal flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-brand-muted">Required Formulation</h3>
+                            
+                            <!-- Visual Grams Display -->
+                            <div class="bg-brand-bg p-5 rounded-2xl border border-brand-border space-y-4">
+                                <div>
+                                    <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider">Total Powder Required</span>
+                                    <p class="text-3xl font-black text-brand-primary" id="media-result-total">5.00 g</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4 pt-2 border-t border-brand-border/60">
+                                    <div>
+                                        <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider" id="lbl-result-base">LB Broth Powder Required</span>
+                                        <p class="text-lg font-bold text-brand-text" id="media-result-base">5.00 g</p>
+                                    </div>
+                                    <div id="recipe-result-agar-block" class="hidden">
+                                        <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider">Agar Powder Required</span>
+                                        <p class="text-lg font-bold text-brand-text text-amber-500" id="media-result-agar">0.00 g</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preparation Steps -->
+                            <div class="space-y-3">
+                                <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block">Lab Recipe Card</span>
+                                <ol class="space-y-2 text-xs text-brand-muted list-decimal pl-4 leading-relaxed" id="media-preparation-guide">
+                                    <!-- Steps populated by JS -->
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Codon Crafter Subtool -->
+                <div id="subtool-codoncrafter" class="hidden card-minimal space-y-6 animate-in fade-in duration-300">
+                    <div class="space-y-1.5">
+                        <label class="label-minimal">Enter DNA Sequence (5' to 3')</label>
+                        <textarea id="dna-input-seq" class="w-full h-24 input-minimal font-mono uppercase tracking-widest p-4 text-sm" placeholder="e.g. ATGGCCATTGTAATGGGCGCCTAA" oninput="translateDNA()"></textarea>
+                        <span class="text-[10px] text-brand-muted">Only valid nucleotides (A, T, C, G) are processed. Case-insensitive.</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        <div class="p-4 bg-brand-bg rounded-xl border border-brand-border">
+                            <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1">Complementary DNA</span>
+                            <p id="dna-complementary" class="font-mono text-xs font-bold text-brand-text tracking-widest break-all">---</p>
+                        </div>
+                        <div class="p-4 bg-brand-bg rounded-xl border border-brand-border">
+                            <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1">Transcribed mRNA</span>
+                            <p id="rna-transcribed" class="font-mono text-xs font-bold text-brand-primary tracking-widest break-all">---</p>
+                        </div>
+                        <div class="p-4 bg-brand-bg rounded-xl border border-brand-border">
+                            <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1">Peptide (Amino Acids)</span>
+                            <p id="peptide-translated" class="font-mono text-xs font-bold text-amber-500 tracking-wider break-all">---</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-brand-accent/20 border border-brand-border rounded-xl space-y-2">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-brand-text">Sequence Stats</h4>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <span class="text-[9px] font-bold text-brand-muted uppercase tracking-widest">Base Count</span>
+                                <p id="dna-stat-len" class="text-sm font-bold text-brand-text">0 bp</p>
+                            </div>
+                            <div>
+                                <span class="text-[9px] font-bold text-brand-muted uppercase tracking-widest">GC Content</span>
+                                <p id="dna-stat-gc" class="text-sm font-bold text-brand-text">0.0%</p>
+                            </div>
+                            <div>
+                                <span class="text-[9px] font-bold text-brand-muted uppercase tracking-widest">Molecular Weight</span>
+                                <p id="dna-stat-mw" class="text-sm font-bold text-brand-text">0.0 kDa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OD Dilution Calculator Subtool -->
+                <div id="subtool-oddilution" class="hidden space-y-6 animate-in fade-in duration-300">
+                    <!-- Informational Note -->
+                    <div class="p-4 bg-brand-primary/5 border border-brand-primary/20 rounded-xl text-xs text-brand-muted flex items-start gap-2.5">
+                        <i data-lucide="info" class="w-4 h-4 text-brand-primary flex-shrink-0 mt-0.5"></i>
+                        <p>OD targets vary between organisms, growth conditions, and laboratory protocols. Enter the OD values specified by your experiment.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Inputs Card Column -->
+                        <div class="space-y-6">
+                            <div id="od-steps-container" class="space-y-6">
+                                <!-- Dynamic dilution step cards will be injected here -->
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="flex gap-3">
+                                <button onclick="addODDilutionStep()" class="flex-1 px-4 py-2.5 text-xs font-bold bg-brand-primary hover:bg-brand-primary/90 text-white rounded-xl transition-all flex items-center justify-center gap-2">
+                                    <i data-lucide="plus" class="w-4 h-4"></i> Add Another Dilution
+                                </button>
+                                <button onclick="resetODCalculator()" class="px-4 py-2.5 text-xs font-bold bg-brand-accent text-brand-primary rounded-xl border border-brand-border hover:border-brand-primary transition-all flex items-center justify-center gap-2">
+                                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Results Side Column -->
+                        <div class="space-y-6 flex flex-col justify-between">
+                            <div class="space-y-6">
+                                <!-- Error Validation Banner -->
+                                <div id="od-validation-error" class="hidden bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-xl text-xs font-semibold flex items-center gap-2 animate-in fade-in duration-200">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0"></i>
+                                    <span id="od-validation-error-text">Validation error message goes here</span>
+                                </div>
+
+                                <!-- Step Results Container -->
+                                <div id="od-results-container" class="space-y-4 transition-all duration-300">
+                                    <!-- Dilution Result Card -->
+                                    <div class="p-5 bg-brand-surface border border-brand-border rounded-xl space-y-4">
+                                        <div class="flex justify-between items-center border-b border-brand-border/40 pb-2">
+                                            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1.5">
+                                                <i data-lucide="beaker" class="w-4 h-4"></i> Dilution Result
+                                            </span>
+                                            <span class="text-xs font-bold text-brand-muted" id="od-res-target-od">-- OD</span>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60 hover:border-brand-primary/30 transition-colors">
+                                                <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"></span> Take Culture (V₁)
+                                                </span>
+                                                <p class="text-2xl font-black text-brand-primary" id="od-res-culture">-- mL</p>
+                                            </div>
+                                            <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60 hover:border-brand-primary/30 transition-colors">
+                                                <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Add Fresh Media
+                                                </span>
+                                                <p class="text-2xl font-black text-brand-text" id="od-res-media">-- mL</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center text-xs text-brand-muted pt-3 border-t border-brand-border/40">
+                                            <span>Final Volume (V₂): <strong class="text-brand-text" id="od-res-volume">-- mL</strong></span>
+                                            <span>Dilution Factor: <strong class="text-brand-text" id="od-res-df">--x</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Summary Card -->
+                    <div id="od-summary-card" class="card-minimal space-y-4 border-l-4 border-l-brand-primary bg-brand-primary/5">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div>
+                                <h3 class="text-xs font-bold uppercase tracking-widest text-brand-primary flex items-center gap-1.5">
+                                    <i data-lucide="clipboard-list" class="w-4 h-4"></i> Dilution Summary Protocol
+                                </h3>
+                                <p class="text-[10px] text-brand-muted mt-0.5">Step-by-step experiment instructions for direct lab bench use</p>
+                            </div>
+                            <button id="btn-copy-od-summary" onclick="copyODSummary()" class="px-4 py-2 text-xs font-bold bg-brand-primary hover:bg-brand-primary/90 text-white rounded-lg transition-all flex items-center justify-center gap-1.5 self-start">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Summary
+                            </button>
+                        </div>
+                        
+                        <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60">
+                            <pre id="od-summary-text" class="font-sans text-xs text-brand-text whitespace-pre-wrap leading-relaxed">Calculating dilution protocol...</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        let state = {
+            activePage: 'home',
+            isDarkMode: false,
+            toolsUsed: new Set(),
+            gpaCourses: [{ grade: '4.0', credits: 3 }],
+            cgpaCourses: [{ grade: '8.0', credits: 4 }],
+            plannerSubjects: [],
+            odSteps: [
+                { currentOD: 0.88, desiredOD: 0.15, finalVolume: 10, linkPrevious: false }
+            ]
+        };
+
+        function showPage(pageId) {
+            state.activePage = pageId;
+            if (pageId !== 'home') state.toolsUsed.add(pageId);
+            
+            const container = document.getElementById('active-content');
+            const template = document.getElementById(`template-${pageId}`);
+            
+            if (!template) return;
+
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.innerHTML = '';
+                container.appendChild(template.content.cloneNode(true));
+                container.style.opacity = '1';
+                
+                // Initialize page specific DOM
+                if (pageId === 'gpa') renderGPACourses();
+                if (pageId === 'cgpa') renderCGPACourses();
+                if (pageId === 'planner') renderPlannerSubjects();
+                if (pageId === 'cellcraft') {
+                    selectPresetMedia('lb_broth');
+                    translateDNA();
+                    renderODSteps();
+                    calculateODDilutions();
+                }
+                
+                updateSidebar();
+                lucide.createIcons();
+                
+                // If switching tools, scroll to top of main area
+                if (pageId !== 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, 100);
+        }
+
+        function updateSidebar() {
+            const countEl = document.getElementById('tools-used-count');
+            if (countEl) countEl.innerText = state.toolsUsed.size.toString().padStart(2, '0');
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            // Default to dark if no preference is saved
+            state.isDarkMode = savedTheme === 'light' ? false : true;
+            
+            const toggle = document.getElementById('dark-mode-toggle');
+            const toggleBtn = document.querySelector('button[onclick="toggleDarkMode()"]');
+            const icon = document.getElementById('theme-icon');
+
+            if (state.isDarkMode) {
+                document.documentElement.classList.add('dark');
+                if (toggle) toggle.style.transform = 'translateX(20px)';
+                if (toggleBtn) {
+                    toggleBtn.classList.remove('bg-brand-border');
+                    toggleBtn.classList.add('bg-brand-primary');
+                }
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'moon');
+                    icon.classList.remove('text-orange-400');
+                    icon.classList.add('text-blue-300');
+                }
+            } else {
+                document.documentElement.classList.remove('dark');
+                if (toggle) toggle.style.transform = 'translateX(0)';
+                if (toggleBtn) {
+                    toggleBtn.classList.add('bg-brand-border');
+                    toggleBtn.classList.remove('bg-brand-primary');
+                }
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'sun');
+                    icon.classList.add('text-orange-400');
+                    icon.classList.remove('text-blue-300');
+                }
+            }
+            lucide.createIcons();
+        }
+
+        function toggleDarkMode() {
+            state.isDarkMode = !state.isDarkMode;
+            localStorage.setItem('theme', state.isDarkMode ? 'dark' : 'light');
+            initTheme();
+        }
+
+        // --- GPA Calculator Logic ---
+        function addGPACourse() {
+            state.gpaCourses.push({ grade: '4.0', credits: 3 });
+            renderGPACourses();
+        }
+
+        function removeGPACourse(index) {
+            state.gpaCourses.splice(index, 1);
+            renderGPACourses();
+        }
+
+        function renderGPACourses() {
+            const list = document.getElementById('gpa-courses-list');
+            if (!list) return;
+            list.innerHTML = '';
+            state.gpaCourses.forEach((c, i) => {
+                const item = document.createElement('div');
+                item.className = 'p-4 border border-brand-border rounded-lg relative';
+                item.innerHTML = `
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="label-minimal">Grade (0-4.0)</label>
+                            <input type="number" step="0.1" class="input-minimal" value="${c.grade}" onchange="updateGPAVal(${i}, 'grade', this.value)">
+                        </div>
+                        <div>
+                            <label class="label-minimal">Credits</label>
+                            <input type="number" class="input-minimal" value="${c.credits}" onchange="updateGPAVal(${i}, 'credits', this.value)">
+                        </div>
+                    </div>
+                    <button onclick="removeGPACourse(${i})" class="absolute -top-2 -right-2 bg-brand-surface border border-brand-border text-red-500 p-1 rounded-full shadow-sm hover:bg-red-50 transition-colors">×</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function updateGPAVal(idx, field, val) {
+            state.gpaCourses[idx][field] = field === 'credits' ? parseInt(val) || 0 : val;
+        }
+
+        function calculateGPA() {
+            let totalPoints = 0;
+            let totalCredits = 0;
+            state.gpaCourses.forEach(c => {
+                totalPoints += parseFloat(c.grade || 0) * (parseInt(c.credits) || 0);
+                totalCredits += (parseInt(c.credits) || 0);
+            });
+            const result = totalCredits > 0 ? totalPoints / totalCredits : 0;
+            document.getElementById('gpa-result-val').innerText = `${result.toFixed(2)} / 4.0`;
+            document.getElementById('gpa-result-area').classList.remove('hidden');
+        }
+
+        // --- CGPA Calculator Logic ---
+        function addCGPACourse() {
+            state.cgpaCourses.push({ grade: '8.0', credits: 4 });
+            renderCGPACourses();
+        }
+
+        function removeCGPACourse(index) {
+            state.cgpaCourses.splice(index, 1);
+            renderCGPACourses();
+        }
+
+        function renderCGPACourses() {
+            const list = document.getElementById('cgpa-courses-list');
+            if (!list) return;
+            list.innerHTML = '';
+            state.cgpaCourses.forEach((c, i) => {
+                const item = document.createElement('div');
+                item.className = 'p-4 border border-brand-border rounded-lg relative bg-brand-surface animate-in slide-in-from-top-2 duration-200';
+                item.innerHTML = `
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="label-minimal">Grade Points</label>
+                            <input type="number" step="0.1" class="input-minimal" value="${c.grade}" onchange="updateCGPAVal(${i}, 'grade', this.value)" placeholder="e.g. 9.0">
+                        </div>
+                        <div>
+                            <label class="label-minimal">Credits</label>
+                            <input type="number" class="input-minimal" value="${c.credits}" onchange="updateCGPAVal(${i}, 'credits', this.value)" placeholder="e.g. 4">
+                        </div>
+                    </div>
+                    <button onclick="removeCGPACourse(${i})" class="absolute -top-2 -right-2 bg-brand-surface border border-brand-border text-red-500 w-6 h-6 flex items-center justify-center rounded-full shadow-sm hover:bg-rose-50 transition-colors">×</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function updateCGPAVal(idx, field, val) {
+            state.cgpaCourses[idx][field] = field === 'credits' ? parseInt(val) || 0 : (parseFloat(val) || 0);
+        }
+
+        function calculateCGPA() {
+            let totalWeightedPoints = 0;
+            let totalCredits = 0;
+            
+            state.cgpaCourses.forEach(c => {
+                const grade = parseFloat(c.grade) || 0;
+                const credits = parseInt(c.credits) || 0;
+                totalWeightedPoints += grade * credits;
+                totalCredits += credits;
+            });
+            
+            const result = totalCredits > 0 ? (totalWeightedPoints / totalCredits) : 0;
+            const resultEl = document.getElementById('cgpa-result-val');
+            const feedbackEl = document.getElementById('cgpa-feedback');
+            
+            resultEl.innerText = result.toFixed(2);
+            
+            if (result >= 9) feedbackEl.innerText = "Excellent! Outstanding performance.";
+            else if (result >= 8) feedbackEl.innerText = "Great job! Keep it up.";
+            else if (result >= 7) feedbackEl.innerText = "Good work. Solid progress.";
+            else feedbackEl.innerText = "Keep working hard!";
+            
+            document.getElementById('cgpa-result-area').classList.remove('hidden');
+            resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // --- Percentage Calculator Logic ---
+        function calculatePercentage() {
+            const total = parseFloat(document.getElementById('perc-total').value);
+            const obtained = parseFloat(document.getElementById('perc-obtained').value);
+            if (total > 0) {
+                const res = (obtained / total) * 100;
+                document.getElementById('perc-result-val').innerText = `${res.toFixed(1)}%`;
+                document.getElementById('perc-result-area').classList.remove('hidden');
+            }
+        }
+
+        // --- Attendance Calculator Logic ---
+        function calculateAttendance() {
+            const total = parseInt(document.getElementById('att-total').value) || 0;
+            const attended = parseInt(document.getElementById('att-attended').value) || 0;
+            const goal = parseInt(document.getElementById('att-goal').value) || 75;
+
+            if (total < 0 || attended < 0 || goal <= 0 || goal >= 100) {
+                alert("Please enter valid positive numbers. Goal must be between 1 and 99.");
+                return;
+            }
+
+            if (attended > total) {
+                alert("Attended classes cannot be more than total classes.");
+                return;
+            }
+
+            const currentPerc = total > 0 ? (attended / total) * 100 : 0;
+            document.getElementById('att-current-perc').innerText = `${currentPerc.toFixed(1)}%`;
+            document.getElementById('att-result-area').classList.remove('hidden');
+
+            const statusCard = document.getElementById('att-status-card');
+            const statusIcon = document.getElementById('att-status-icon');
+            const statusTitle = document.getElementById('att-status-title');
+            const statusDesc = document.getElementById('att-status-desc');
+
+            if (currentPerc >= goal) {
+                // Safe, how many can we miss?
+                // attended / (total + Y) = goal / 100
+                // 100 * attended = goal * total + goal * Y
+                // Y = (100 * attended - goal * total) / goal
+                const canMiss = Math.floor((100 * attended - goal * total) / goal);
+
+                statusCard.className = "p-6 rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-900/10 dark:border-emerald-800 transition-all";
+                statusIcon.className = "p-3 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400";
+                statusIcon.innerHTML = `<i data-lucide="check-circle" class="w-6 h-6"></i>`;
+                statusTitle.innerText = "You are safe!";
+                statusDesc.innerText = `Your attendance is above ${goal}%. You can miss ${canMiss} more class${canMiss === 1 ? '' : 'es'} while staying above your goal.`;
+            } else {
+                // Low, how many to attend?
+                // (attended + X) / (total + X) = goal / 100
+                // 100 * attended + 100 * X = goal * total + goal * X
+                // X * (100 - goal) = goal * total - 100 * attended
+                // X = (goal * total - 100 * attended) / (100 - goal)
+                const needToAttend = Math.ceil((goal * total - 100 * attended) / (100 - goal));
+
+                statusCard.className = "p-6 rounded-xl border border-rose-200 bg-rose-50 dark:bg-rose-900/10 dark:border-rose-800 transition-all";
+                statusIcon.className = "p-3 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/40 dark:text-rose-400";
+                statusIcon.innerHTML = `<i data-lucide="alert-circle" class="w-6 h-6"></i>`;
+                statusTitle.innerText = "Attendance is low";
+                statusDesc.innerText = `You need to attend ${needToAttend} more class${needToAttend === 1 ? '' : 'es'} without missing any to reach exactly ${goal}%.`;
+            }
+            lucide.createIcons();
+        }
+
+        // --- Study Planner Logic ---
+        function addPlannerSubject() {
+            const input = document.getElementById('plan-subj-input');
+            const val = input.value.trim();
+            if (val && !state.plannerSubjects.includes(val)) {
+                state.plannerSubjects.push(val);
+                input.value = '';
+                renderPlannerSubjects();
+            }
+        }
+
+        function renderPlannerSubjects() {
+            const container = document.getElementById('planner-subjects-tags');
+            if (!container) return;
+            container.innerHTML = '';
+            state.plannerSubjects.forEach(s => {
+                const tag = document.createElement('span');
+                tag.className = 'bg-brand-accent text-brand-primary px-3 py-1 rounded-lg text-[0.7rem] font-bold flex items-center transition-all hover:bg-brand-primary hover:text-white';
+                tag.innerHTML = `${s} <button onclick="removePlannerSubject('${s}')" class="ml-2 font-black transition-colors">×</button>`;
+                container.appendChild(tag);
+            });
+        }
+
+        function removePlannerSubject(subj) {
+            state.plannerSubjects = state.plannerSubjects.filter(s => s !== subj);
+            renderPlannerSubjects();
+        }
+
+        function formatTime(hour, min) {
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            let h = hour % 12;
+            h = h ? h : 12; // convert 0 to 12
+            const m = min.toString().padStart(2, '0');
+            return `${h}:${m} ${ampm}`;
+        }
+
+        function generatePlan() {
+            const hoursInput = document.getElementById('plan-hours');
+            const totalHours = parseFloat(hoursInput.value);
+            
+            if (!totalHours || totalHours <= 0) {
+                alert("Please enter valid available hours (must be greater than 0).");
+                return;
+            }
+            
+            if (state.plannerSubjects.length === 0) {
+                alert("Please add at least one subject to generate your timetable.");
+                return;
+            }
+            
+            const totalMinutes = totalHours * 60;
+            const minsPerSubject = Math.floor(totalMinutes / state.plannerSubjects.length);
+            const list = document.getElementById('planner-schedule-list');
+            list.innerHTML = '';
+            
+            let currentTotalMinutes = 8 * 60; // Default start at 8:00 AM
+            
+            state.plannerSubjects.forEach(s => {
+                const startH = Math.floor(currentTotalMinutes / 60);
+                const startM = currentTotalMinutes % 60;
+                
+                const startTimeStr = formatTime(startH, startM);
+                
+                currentTotalMinutes += minsPerSubject;
+                
+                const endH = Math.floor(currentTotalMinutes / 60);
+                const endM = currentTotalMinutes % 60;
+                
+                const endTimeStr = formatTime(endH, endM);
+                
+                const item = document.createElement('div');
+                item.className = 'p-4 bg-brand-surface rounded-lg border border-brand-border shadow-sm animate-in fade-in slide-in-from-right-4 duration-300';
+                item.innerHTML = `
+                    <p class="text-[0.65rem] font-bold text-brand-muted uppercase tracking-widest mb-1">${startTimeStr} - ${endTimeStr}</p>
+                    <p class="font-bold text-sm tracking-tight text-brand-text">${s}</p>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // --- Word Counter Logic ---
+        function updateWordCount() {
+            const text = document.getElementById('word-input').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            const reads = Math.ceil(words / 200);
+            
+            document.getElementById('word-count').innerText = words;
+            document.getElementById('char-count').innerText = chars;
+            document.getElementById('read-time').innerText = `${reads}m`;
+        }
+
+        // --- Summarizer Logic ---
+        function generateSummary() {
+            const input = document.getElementById('sum-input').value;
+            const sentences = input.split(/[.!?]+/).filter(s => s.trim().length > 15);
+            const resArea = document.getElementById('sum-result-area');
+            const resVal = document.getElementById('sum-result-val');
+            
+            if (sentences.length <= 3) {
+                resVal.innerText = "Text is too short for a meaningful summary.";
+            } else {
+                const summary = [sentences[0], sentences[Math.floor(sentences.length / 2)], sentences[sentences.length - 1]].join('. ') + '.';
+                resVal.innerText = summary;
+            }
+            resArea.classList.remove('hidden');
+        }
+
+        // --- CellCraft Biology Tools Logic ---
+        const mediaPresets = {
+            lb_broth: {
+                name: 'LB Broth',
+                baseConc: 20,
+                hasAgar: false,
+                agarConc: 0,
+                unit: 'LB Broth Powder'
+            },
+            lb_agar: {
+                name: 'LB Agar',
+                baseConc: 20,
+                hasAgar: true,
+                agarConc: 15,
+                unit: 'LB Broth Powder'
+            },
+            tsb: {
+                name: 'Tryptic Soy Broth',
+                baseConc: 30,
+                hasAgar: false,
+                agarConc: 0,
+                unit: 'TSB Powder'
+            },
+            macconkey: {
+                name: 'MacConkey Agar',
+                baseConc: 50,
+                hasAgar: true,
+                agarConc: 0,
+                unit: 'MacConkey Agar Powder'
+            },
+            nutrient_broth: {
+                name: 'Nutrient Broth',
+                baseConc: 13,
+                hasAgar: false,
+                agarConc: 0,
+                unit: 'Nutrient Broth Powder'
+            },
+            custom: {
+                name: 'Custom Media',
+                baseConc: 20,
+                hasAgar: false,
+                agarConc: 15,
+                unit: 'Media Powder'
+            }
+        };
+
+        let selectedMediaPreset = 'lb_broth';
+
+        function switchCellCraftSubtool(subtoolId) {
+            const tabs = {
+                mediaprep: document.getElementById('tab-mediaprep'),
+                codoncrafter: document.getElementById('tab-codoncrafter'),
+                oddilution: document.getElementById('tab-oddilution')
+            };
+            const tools = {
+                mediaprep: document.getElementById('subtool-mediaprep'),
+                codoncrafter: document.getElementById('subtool-codoncrafter'),
+                oddilution: document.getElementById('subtool-oddilution')
+            };
+
+            const activeClass = "px-4 py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 border-brand-primary text-brand-primary transition-all";
+            const inactiveClass = "px-4 py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-brand-muted hover:text-brand-text transition-all";
+
+            for (const key in tabs) {
+                if (!tabs[key] || !tools[key]) continue;
+                if (key === subtoolId) {
+                    tabs[key].className = activeClass;
+                    tools[key].classList.remove('hidden');
+                } else {
+                    tabs[key].className = inactiveClass;
+                    tools[key].classList.add('hidden');
+                }
+            }
+
+            if (subtoolId === 'mediaprep') {
+                calculateMediaRecipe();
+            } else if (subtoolId === 'codoncrafter') {
+                translateDNA();
+            } else if (subtoolId === 'oddilution') {
+                calculateODDilutions();
+            }
+        }
+
+        function selectPresetMedia(presetId) {
+            selectedMediaPreset = presetId;
+            const preset = mediaPresets[presetId];
+            if (!preset) return;
+
+            // Highlight button
+            document.querySelectorAll('.media-preset-btn').forEach(btn => {
+                btn.className = "media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-border hover:border-brand-primary";
+            });
+            const selectedBtn = document.getElementById(`btn-media-${presetId}`);
+            if (selectedBtn) {
+                selectedBtn.className = "media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-primary bg-brand-accent text-brand-primary";
+            }
+
+            // Set inputs
+            const baseInput = document.getElementById('media-base-conc');
+            const agarCheckbox = document.getElementById('media-has-agar');
+            const agarInput = document.getElementById('media-agar-conc');
+
+            if (baseInput) baseInput.value = preset.baseConc;
+            if (agarCheckbox) agarCheckbox.checked = preset.hasAgar;
+            if (agarInput) {
+                if (preset.hasAgar) {
+                    agarInput.value = preset.agarConc !== undefined ? preset.agarConc : 15;
+                } else {
+                    agarInput.value = 15; // default
+                }
+            }
+
+            toggleAgarUI();
+            calculateMediaRecipe();
+        }
+
+        function onCustomBaseConcChange() {
+            const baseInput = document.getElementById('media-base-conc');
+            if (!baseInput) return;
+
+            const baseVal = parseFloat(baseInput.value) || 0;
+            const currentPresetObj = mediaPresets[selectedMediaPreset];
+
+            if (currentPresetObj && currentPresetObj.baseConc !== baseVal) {
+                selectedMediaPreset = 'custom';
+                document.querySelectorAll('.media-preset-btn').forEach(btn => {
+                    btn.className = "media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-border hover:border-brand-primary";
+                });
+                const customBtn = document.getElementById('btn-media-custom');
+                if (customBtn) {
+                    customBtn.className = "media-preset-btn p-3 text-left border rounded-xl text-xs font-bold transition-all border-brand-primary bg-brand-accent text-brand-primary";
+                }
+            }
+
+            calculateMediaRecipe();
+        }
+
+        function setMediaVolume(volume) {
+            const volInput = document.getElementById('media-volume');
+            if (volInput) {
+                volInput.value = volume;
+                calculateMediaRecipe();
+            }
+        }
+
+        function toggleAgarOption() {
+            toggleAgarUI();
+            calculateMediaRecipe();
+        }
+
+        function toggleAgarUI() {
+            const agarCheckbox = document.getElementById('media-has-agar');
+            const agarContainer = document.getElementById('media-agar-input-container');
+            const agarBlock = document.getElementById('recipe-result-agar-block');
+
+            if (!agarCheckbox || !agarContainer || !agarBlock) return;
+
+            const hasAgar = agarCheckbox.checked;
+
+            if (hasAgar) {
+                agarContainer.classList.remove('hidden');
+                agarBlock.classList.remove('hidden');
+            } else {
+                agarContainer.classList.add('hidden');
+                agarBlock.classList.add('hidden');
+            }
+        }
+
+        function calculateMediaRecipe() {
+            const volInput = document.getElementById('media-volume');
+            const baseInput = document.getElementById('media-base-conc');
+            const agarCheckbox = document.getElementById('media-has-agar');
+            const agarInput = document.getElementById('media-agar-conc');
+
+            if (!volInput || !baseInput || !agarCheckbox || !agarInput) return;
+
+            const volume = parseFloat(volInput.value) || 0;
+            const baseConc = parseFloat(baseInput.value) || 0;
+            const hasAgar = agarCheckbox.checked;
+            const agarConc = hasAgar ? (parseFloat(agarInput.value) || 0) : 0;
+
+            const basePowderGrams = (baseConc * volume) / 1000;
+            const agarPowderGrams = (agarConc * volume) / 1000;
+            const totalGrams = basePowderGrams + agarPowderGrams;
+
+            // Update DOM Results
+            const totalEl = document.getElementById('media-result-total');
+            const baseEl = document.getElementById('media-result-base');
+            const agarEl = document.getElementById('media-result-agar');
+            const lblBase = document.getElementById('lbl-result-base');
+
+            if (totalEl) totalEl.innerText = `${totalGrams.toFixed(2)} g`;
+            if (baseEl) baseEl.innerText = `${basePowderGrams.toFixed(2)} g`;
+            if (agarEl) agarEl.innerText = `${agarPowderGrams.toFixed(2)} g`;
+
+            const currentPresetObj = mediaPresets[selectedMediaPreset] || mediaPresets.custom;
+            if (lblBase) {
+                lblBase.innerText = `${currentPresetObj.unit} Required`;
+            }
+
+            // Render preparation guide
+            const guide = document.getElementById('media-preparation-guide');
+            if (guide) {
+                guide.innerHTML = '';
+                
+                const step1 = document.createElement('li');
+                step1.innerHTML = `Measure exactly <span class="font-bold text-brand-primary">${volume} mL</span> of pure distilled water (dH₂O) in a clean flask or bottle.`;
+                guide.appendChild(step1);
+
+                const step2 = document.createElement('li');
+                step2.innerHTML = `Weigh exactly <span class="font-bold text-brand-primary">${basePowderGrams.toFixed(2)} g</span> of <span class="font-semibold">${selectedMediaPreset === 'custom' ? 'media powder' : currentPresetObj.name}</span> and add to the flask.`;
+                guide.appendChild(step2);
+
+                if (hasAgar) {
+                    const stepAgar = document.createElement('li');
+                    stepAgar.innerHTML = `Weigh exactly <span class="font-bold text-amber-500">${agarPowderGrams.toFixed(2)} g</span> of Agar-Agar powder and add to the mixture.`;
+                    guide.appendChild(stepAgar);
+
+                    const stepStirHeat = document.createElement('li');
+                    stepStirHeat.innerHTML = `Stir thoroughly. <span class="font-semibold text-brand-primary">Heat to a boil</span> while stirring constantly to fully melt and suspend the agar before autoclaving.`;
+                    guide.appendChild(stepStirHeat);
+                } else {
+                    const stepStir = document.createElement('li');
+                    stepStir.innerHTML = `Stir or swirl the flask until all base powder is completely dissolved.`;
+                    guide.appendChild(stepStir);
+                }
+
+                const stepAutoclave = document.createElement('li');
+                stepAutoclave.innerHTML = `Seal loosely and autoclave at <span class="font-semibold text-brand-primary">121°C (15 psi) for 15 minutes</span> to sterilize.`;
+                guide.appendChild(stepAutoclave);
+
+                if (hasAgar) {
+                    const stepCoolPour = document.createElement('li');
+                    stepCoolPour.innerHTML = `Allow to cool in a water bath to <span class="font-semibold text-brand-primary">~45°C - 50°C</span> (warm to touch). Gently swirl and pour into sterile Petri plates under a laminar flow hood.`;
+                    guide.appendChild(stepCoolPour);
+                } else {
+                    const stepCoolStore = document.createElement('li');
+                    stepCoolStore.innerHTML = `Allow to cool. Use immediately or store sterile broth at room temperature or 4°C as required.`;
+                    guide.appendChild(stepCoolStore);
+                }
+            }
+        }
+
+        // Codon Crafter Logic
+        function translateDNA() {
+            const inputSeq = document.getElementById('dna-input-seq');
+            if (!inputSeq) return;
+            
+            const raw = inputSeq.value.trim().toUpperCase();
+            const dna = raw.replace(/[^ATCG]/g, '');
+
+            // Complementary strand
+            const complementMap = { 'A':'T', 'T':'A', 'C':'G', 'G':'C' };
+            const comp = dna.split('').map(b => complementMap[b] || '').join('');
+            const compEl = document.getElementById('dna-complementary');
+            if (compEl) compEl.innerText = comp || '---';
+
+            // mRNA Transcript
+            const mrna = dna.replace(/T/g, 'U');
+            const rnaEl = document.getElementById('rna-transcribed');
+            if (rnaEl) rnaEl.innerText = mrna || '---';
+
+            // Peptide Translation
+            const codonTable = {
+                'UUU':'Phe', 'UUC':'Phe', 'UUA':'Leu', 'UUG':'Leu',
+                'UCU':'Ser', 'UCC':'Ser', 'UCA':'Ser', 'UCG':'Ser',
+                'UAU':'Tyr', 'UAC':'Tyr', 'UAA':'STOP', 'UAG':'STOP',
+                'UGU':'Cys', 'UGC':'Cys', 'UGA':'STOP', 'UGG':'Trp',
+                'CUU':'Leu', 'CUC':'Leu', 'CUA':'Leu', 'CUG':'Leu',
+                'CCU':'Pro', 'CCC':'Pro', 'CCA':'Pro', 'CCG':'Pro',
+                'CAU':'His', 'CAC':'His', 'CAA':'Gln', 'CAG':'Gln',
+                'CGU':'Arg', 'CGC':'Arg', 'CGA':'Arg', 'CGG':'Arg',
+                'AUU':'Ile', 'AUC':'Ile', 'AUA':'Ile', 'AUG':'Met (Start)',
+                'ACU':'Thr', 'ACC':'Thr', 'ACA':'Thr', 'ACG':'Thr',
+                'AAU':'Asn', 'AAC':'Asn', 'AAA':'Lys', 'AAG':'Lys',
+                'AGU':'Ser', 'AGC':'Ser', 'AGA':'Arg', 'AGG':'Arg',
+                'GUU':'Val', 'GUC':'Val', 'GUA':'Val', 'GUG':'Val',
+                'GCU':'Ala', 'GCC':'Ala', 'GCA':'Ala', 'GCG':'Ala',
+                'GAU':'Asp', 'GAC':'Asp', 'GAA':'Glu', 'GAG':'Glu',
+                'GGU':'Gly', 'GGC':'Gly', 'GGA':'Gly', 'GGG':'Gly'
+            };
+
+            const peptides = [];
+            for (let i = 0; i < mrna.length - 2; i += 3) {
+                const codon = mrna.substring(i, i + 3);
+                const aa = codonTable[codon] || '?';
+                peptides.push(aa);
+                if (aa === 'STOP') break;
+            }
+            const pepEl = document.getElementById('peptide-translated');
+            if (pepEl) pepEl.innerText = peptides.join(' ➔ ') || '---';
+
+            // Stats
+            const lenEl = document.getElementById('dna-stat-len');
+            if (lenEl) lenEl.innerText = `${dna.length} bp`;
+            
+            // GC Content
+            const gcCount = (dna.match(/[GC]/g) || []).length;
+            const gcPerc = dna.length > 0 ? (gcCount / dna.length) * 100 : 0;
+            const gcEl = document.getElementById('dna-stat-gc');
+            if (gcEl) gcEl.innerText = `${gcPerc.toFixed(1)}%`;
+
+            // Mol Wt estimation (single strand approx 330 Da per base)
+            const mw = dna.length * 330 / 1000;
+            const mwEl = document.getElementById('dna-stat-mw');
+            if (mwEl) mwEl.innerText = `${mw.toFixed(2)} kDa`;
+        }
+
+        // OD Dilution Calculator Logic
+        function formatOD(od) {
+            if (od === 0 || od === "0" || !od) return "0.000";
+            const num = parseFloat(od);
+            if (isNaN(num)) return "--";
+            const str = num.toString();
+            if (str.includes('.') && str.split('.')[1].length > 3) {
+                return num.toFixed(Math.max(3, str.split('.')[1].length));
+            }
+            return num.toFixed(3);
+        }
+
+        function formatVolumeUnits(volML) {
+            if (isNaN(volML) || volML < 0) {
+                return { primary: "--", secondary: "--", full: "--" };
+            }
+            const volUL = volML * 1000;
+            
+            // For very small volumes, automatically highlight the more practical unit.
+            // Example: 0.025 mL -> 25 µL. Display: 25 µL (0.025 mL).
+            // For larger volumes (>= 1 mL), continue showing mL first.
+            if (volML < 1.0) {
+                const primaryText = `${parseFloat(volUL.toFixed(2))} µL`;
+                const secondaryText = `(${parseFloat(volML.toFixed(5))} mL)`;
+                return {
+                    primary: primaryText,
+                    secondary: secondaryText,
+                    full: `${primaryText} ${secondaryText}`
+                };
+            } else {
+                const primaryText = `${parseFloat(volML.toFixed(3))} mL`;
+                const secondaryText = `(${parseFloat(volUL.toFixed(0))} µL)`;
+                return {
+                    primary: primaryText,
+                    secondary: secondaryText,
+                    full: `${primaryText} ${secondaryText}`
+                };
+            }
+        }
+
+        function renderODSteps() {
+            const container = document.getElementById('od-steps-container');
+            if (!container) return;
+
+            let html = "";
+            state.odSteps.forEach((step, i) => {
+                const isFirst = i === 0;
+                
+                // Set step current OD if linked
+                if (step.linkPrevious && !isFirst) {
+                    const prevDesired = state.odSteps[i - 1].desiredOD;
+                    step.currentOD = prevDesired !== "" ? prevDesired : "";
+                }
+
+                html += `
+                <!-- Dilution Card ${i + 1} -->
+                <div class="card-minimal space-y-4 relative border border-brand-border/60">
+                    <div class="flex items-center justify-between border-b border-brand-border/60 pb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs bg-brand-primary/15 text-brand-primary px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">Dilution ${i + 1}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            ${!isFirst ? `
+                            <label class="inline-flex items-center gap-1.5 cursor-pointer text-[10px] text-brand-muted hover:text-brand-primary font-bold uppercase tracking-wider select-none">
+                                <input type="checkbox" class="rounded border-brand-border bg-brand-bg text-brand-primary focus:ring-0 w-3.5 h-3.5" 
+                                       onchange="toggleLinkStep(${i}, this.checked)" ${step.linkPrevious ? 'checked' : ''}>
+                                Link Previous Step
+                            </label>
+                            ` : ''}
+                            ${!isFirst ? `
+                            <button onclick="deleteODStep(${i})" class="text-brand-muted hover:text-red-500 transition-colors p-1" title="Delete Step">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Current OD (C1) -->
+                        <div class="space-y-1.5">
+                            <label class="label-minimal flex items-center gap-1 flex-wrap">
+                                Current OD (C₁)
+                            </label>
+                            <input type="number" id="od-current-od-${i}" 
+                                   class="input-minimal ${step.linkPrevious ? 'bg-brand-bg/60 text-brand-muted cursor-not-allowed border-dashed' : ''}" 
+                                   placeholder="Enter current OD" step="0.01" min="0" 
+                                   value="${step.currentOD !== undefined ? step.currentOD : ''}"
+                                   ${step.linkPrevious ? 'readonly' : ''}
+                                   oninput="updateODStepField(${i}, 'currentOD', this.value)">
+                        </div>
+                        <!-- Desired OD (C2) -->
+                        <div class="space-y-1.5">
+                            <label class="label-minimal flex items-center gap-1 flex-wrap">
+                                Desired OD (C₂)
+                            </label>
+                            <input type="number" id="od-desired-od-${i}" 
+                                   class="input-minimal" 
+                                   placeholder="Enter desired OD" step="0.0001" min="0" 
+                                   value="${step.desiredOD !== undefined ? step.desiredOD : ''}"
+                                   oninput="updateODStepField(${i}, 'desiredOD', this.value)">
+                        </div>
+                        <!-- Final Volume (V2) -->
+                        <div class="space-y-1.5">
+                            <label class="label-minimal flex items-center gap-1 flex-wrap">
+                                Final Vol (V₂, mL)
+                            </label>
+                            <input type="number" id="od-final-volume-${i}" 
+                                   class="input-minimal" 
+                                   placeholder="Enter final volume" step="0.1" min="0" 
+                                   value="${step.finalVolume !== undefined ? step.finalVolume : ''}"
+                                   oninput="updateODStepField(${i}, 'finalVolume', this.value)">
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        }
+
+        function addODDilutionStep() {
+            if (!state.odSteps) {
+                state.odSteps = [
+                    { currentOD: 0.88, desiredOD: 0.15, finalVolume: 10, linkPrevious: false }
+                ];
+            }
+            
+            const prevStep = state.odSteps[state.odSteps.length - 1];
+            const nextCurrentOD = prevStep ? prevStep.desiredOD : "";
+            
+            state.odSteps.push({
+                currentOD: nextCurrentOD,
+                desiredOD: "",
+                finalVolume: 10,
+                linkPrevious: true
+            });
+            
+            renderODSteps();
+            calculateODDilutions();
+        }
+
+        function deleteODStep(index) {
+            if (!state.odSteps || index === 0) return;
+            state.odSteps.splice(index, 1);
+            
+            renderODSteps();
+            calculateODDilutions();
+        }
+
+        function toggleLinkStep(index, checked) {
+            if (!state.odSteps || !state.odSteps[index]) return;
+            state.odSteps[index].linkPrevious = checked;
+            
+            if (checked) {
+                const prevDesired = state.odSteps[index - 1].desiredOD;
+                state.odSteps[index].currentOD = prevDesired;
+            }
+            
+            renderODSteps();
+            calculateODDilutions();
+        }
+
+        function updateODStepField(index, field, value) {
+            if (!state.odSteps || !state.odSteps[index]) return;
+            
+            state.odSteps[index][field] = value === "" ? "" : parseFloat(value);
+            if (isNaN(state.odSteps[index][field])) {
+                state.odSteps[index][field] = value;
+            }
+
+            propagateLinkedODValues();
+            calculateODDilutions(true);
+        }
+
+        function propagateLinkedODValues() {
+            if (!state.odSteps) return;
+            for (let i = 1; i < state.odSteps.length; i++) {
+                if (state.odSteps[i].linkPrevious) {
+                    const prevDesired = state.odSteps[i - 1].desiredOD;
+                    state.odSteps[i].currentOD = prevDesired;
+                    
+                    const inputEl = document.getElementById(`od-current-od-${i}`);
+                    if (inputEl) {
+                        inputEl.value = prevDesired !== undefined ? prevDesired : "";
+                    }
+                }
+            }
+        }
+
+        function clearODResults(message) {
+            const resultsContainer = document.getElementById('od-results-container');
+            if (resultsContainer) {
+                let html = "";
+                const len = state.odSteps ? state.odSteps.length : 1;
+                for (let i = 0; i < len; i++) {
+                    html += `
+                    <div class="p-5 bg-brand-surface border border-brand-border rounded-xl space-y-4 opacity-40">
+                        <div class="flex justify-between items-center border-b border-brand-border/40 pb-2">
+                            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="beaker" class="w-4 h-4"></i> Dilution ${i + 1} Result
+                            </span>
+                            <span class="text-xs font-bold text-brand-muted">-- OD</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60">
+                                <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"></span> Take Culture (V₁)
+                                </span>
+                                <p class="text-xl font-black text-brand-muted">-- mL</p>
+                            </div>
+                            <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60">
+                                <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Add Fresh Media
+                                </span>
+                                <p class="text-xl font-black text-brand-muted">-- mL</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center text-xs text-brand-muted pt-3 border-t border-brand-border/40">
+                            <span>Final Volume (V₂): <strong class="text-brand-text">-- mL</strong></span>
+                            <span>Dilution Factor: <strong class="text-brand-text">--x</strong></span>
+                        </div>
+                    </div>
+                    `;
+                }
+                resultsContainer.innerHTML = html;
+                if (window.lucide) window.lucide.createIcons();
+            }
+
+            const summaryTextEl = document.getElementById('od-summary-text');
+            if (summaryTextEl) {
+                summaryTextEl.innerText = message || "Enter all required values to calculate the dilution.";
+            }
+        }
+
+        function showODInfo(msg) {
+            const errorContainer = document.getElementById('od-validation-error');
+            const errorText = document.getElementById('od-validation-error-text');
+            const resultsContainer = document.getElementById('od-results-container');
+
+            if (errorContainer && errorText) {
+                errorText.innerText = msg;
+                errorContainer.className = "bg-brand-primary/10 border border-brand-primary/20 text-brand-primary p-4 rounded-xl text-xs font-semibold flex items-center gap-2 animate-in fade-in duration-200";
+                errorContainer.classList.remove('hidden');
+                
+                const icon = errorContainer.querySelector('i');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'info');
+                    if (window.lucide) window.lucide.createIcons();
+                }
+            }
+            if (resultsContainer) {
+                resultsContainer.classList.add('opacity-40');
+            }
+        }
+
+        function showODError(msg) {
+            const errorContainer = document.getElementById('od-validation-error');
+            const errorText = document.getElementById('od-validation-error-text');
+            const resultsContainer = document.getElementById('od-results-container');
+
+            if (errorContainer && errorText) {
+                errorText.innerText = msg;
+                errorContainer.className = "bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-xl text-xs font-semibold flex items-center gap-2 animate-in fade-in duration-200";
+                errorContainer.classList.remove('hidden');
+                
+                const icon = errorContainer.querySelector('i');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'alert-triangle');
+                    if (window.lucide) window.lucide.createIcons();
+                }
+            }
+            if (resultsContainer) {
+                resultsContainer.classList.add('opacity-40');
+            }
+            clearODResults("Please fix the validation errors to generate the dilution summary protocol instructions.");
+        }
+
+        function calculateODDilutions(onlyUpdateResults = false) {
+            const errorContainer = document.getElementById('od-validation-error');
+            const resultsContainer = document.getElementById('od-results-container');
+
+            if (!errorContainer || !resultsContainer) return;
+
+            // If we didn't render steps yet, do it now
+            const stepsContainer = document.getElementById('od-steps-container');
+            if (stepsContainer && stepsContainer.children.length === 0) {
+                renderODSteps();
+            }
+
+            // Clear errors/warnings
+            errorContainer.classList.add('hidden');
+            resultsContainer.classList.remove('opacity-40');
+
+            let hasError = false;
+            let errorMsg = "";
+            let stepResults = [];
+            let anyEmpty = false;
+
+            for (let i = 0; i < state.odSteps.length; i++) {
+                const step = state.odSteps[i];
+                
+                if (step.currentOD === "" || step.desiredOD === "" || step.finalVolume === "" ||
+                    step.currentOD === undefined || step.desiredOD === undefined || step.finalVolume === undefined) {
+                    anyEmpty = true;
+                    stepResults.push({ empty: true });
+                    continue;
+                }
+
+                const c1 = parseFloat(step.currentOD);
+                const c2 = parseFloat(step.desiredOD);
+                const v2 = parseFloat(step.finalVolume);
+
+                if (isNaN(c1) || isNaN(c2) || isNaN(v2)) {
+                    hasError = true;
+                    errorMsg = `Dilution ${i + 1}: Please enter valid numbers for all fields.`;
+                    break;
+                }
+
+                if (c1 <= 0) {
+                    hasError = true;
+                    errorMsg = `Dilution ${i + 1}: Current OD (C₁) must be greater than zero.`;
+                    break;
+                }
+
+                if (c2 <= 0) {
+                    hasError = true;
+                    errorMsg = `Dilution ${i + 1}: Desired OD (C₂) must be greater than zero.`;
+                    break;
+                }
+
+                if (v2 <= 0) {
+                    hasError = true;
+                    errorMsg = `Dilution ${i + 1}: Final Volume (V₂) must be greater than zero.`;
+                    break;
+                }
+
+                if (c2 > c1) {
+                    hasError = true;
+                    errorMsg = `Dilution ${i + 1}: Desired OD (C₂) must be lower than or equal to Current OD (C₁).`;
+                    break;
+                }
+
+                const v1 = (c2 * v2) / c1;
+                const media = v2 - v1;
+
+                if (v1 > v2) {
+                    hasError = true;
+                    errorMsg = `Dilution ${i + 1}: Culture volume (V₁) exceeds final volume (V₂).`;
+                    break;
+                }
+
+                const df = c1 / c2;
+                stepResults.push({
+                    empty: false,
+                    c1,
+                    c2,
+                    v2,
+                    v1,
+                    media,
+                    df
+                });
+            }
+
+            if (hasError) {
+                showODError(errorMsg);
+                return;
+            }
+
+            if (anyEmpty) {
+                showODInfo("Enter all required values to calculate the dilution protocol.");
+                renderODResults(stepResults);
+                return;
+            }
+
+            renderODResults(stepResults);
+        }
+
+        function renderODResults(stepResults) {
+            const resultsContainer = document.getElementById('od-results-container');
+            if (!resultsContainer) return;
+
+            let html = "";
+            let summaryParagraphs = [];
+
+            for (let i = 0; i < state.odSteps.length; i++) {
+                const step = state.odSteps[i];
+                const res = stepResults[i];
+
+                if (!res || res.empty) {
+                    html += `
+                    <div class="p-5 bg-brand-surface border border-brand-border rounded-xl space-y-4">
+                        <div class="flex justify-between items-center border-b border-brand-border/40 pb-2">
+                            <span class="text-xs font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="beaker" class="w-4 h-4"></i> Dilution ${i + 1} Result
+                            </span>
+                            <span class="text-xs font-bold text-brand-muted">-- OD</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60">
+                                <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"></span> Take Culture (V₁)
+                                </span>
+                                <p class="text-xl font-black text-brand-muted">-- mL</p>
+                            </div>
+                            <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60">
+                                <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Add Fresh Media
+                                </span>
+                                <p class="text-xl font-black text-brand-muted">-- mL</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center text-xs text-brand-muted pt-3 border-t border-brand-border/40">
+                            <span>Final Volume (V₂): <strong class="text-brand-text">-- mL</strong></span>
+                            <span>Dilution Factor: <strong class="text-brand-text">--x</strong></span>
+                        </div>
+                    </div>
+                    `;
+                    continue;
+                }
+
+                const formatV1 = formatVolumeUnits(res.v1);
+                const formatMedia = formatVolumeUnits(res.media);
+                const formatV2 = formatVolumeUnits(res.v2);
+
+                html += `
+                <div class="p-5 bg-brand-surface border border-brand-border rounded-xl space-y-4">
+                    <div class="flex justify-between items-center border-b border-brand-border/40 pb-2">
+                        <span class="text-xs font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="beaker" class="w-4 h-4"></i> Dilution ${i + 1} Result
+                        </span>
+                        <span class="text-xs font-bold text-brand-muted">${formatOD(res.c2)} OD</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60 hover:border-brand-primary/30 transition-colors">
+                            <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"></span> Take Culture (V₁)
+                            </span>
+                            <p class="text-lg font-black text-brand-primary leading-tight">${formatV1.primary}</p>
+                            <p class="text-xs text-brand-muted mt-0.5">${formatV1.secondary}</p>
+                        </div>
+                        <div class="bg-brand-bg p-4 rounded-xl border border-brand-border/60 hover:border-brand-primary/30 transition-colors">
+                            <span class="text-[10px] font-bold text-brand-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Add Fresh Media
+                            </span>
+                            <p class="text-lg font-black text-brand-text leading-tight">${formatMedia.primary}</p>
+                            <p class="text-xs text-brand-muted mt-0.5">${formatMedia.secondary}</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-xs text-brand-muted pt-3 border-t border-brand-border/40">
+                        <span>Final Volume (V₂): <strong class="text-brand-text">${formatV2.primary} ${formatV2.secondary}</strong></span>
+                        <span>Dilution Factor: <strong class="text-brand-text">${res.df.toFixed(res.df < 10 ? 2 : 1)}x</strong></span>
+                    </div>
+                </div>
+                `;
+
+                const sourceDesc = i === 0 ? "original culture" : `Dilution ${i}`;
+                
+                const summaryItem = `Dilution ${i + 1}
+
+Take
+${formatV1.primary} ${formatV1.secondary}
+of ${sourceDesc}.
+
+Add
+${formatMedia.primary} ${formatMedia.secondary}
+fresh media.
+
+Final OD
+${formatOD(res.c2)}`;
+                
+                summaryParagraphs.push(summaryItem);
+            }
+
+            resultsContainer.innerHTML = html;
+
+            const summaryTextEl = document.getElementById('od-summary-text');
+            if (summaryTextEl) {
+                if (summaryParagraphs.length === 0) {
+                    summaryTextEl.innerText = "Enter all required values to calculate the dilution protocol.";
+                } else {
+                    summaryTextEl.innerText = "DILUTION PROTOCOL\n\n" + summaryParagraphs.join("\n\n\n") + "\n\nYour culture is now ready for the experiment.";
+                }
+            }
+
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        }
+
+        function resetODCalculator() {
+            state.odSteps = [
+                { currentOD: 0.88, desiredOD: 0.15, finalVolume: 10, linkPrevious: false }
+            ];
+            renderODSteps();
+            calculateODDilutions();
+        }
+
+        function copyODSummary() {
+            const summaryText = document.getElementById('od-summary-text');
+            if (!summaryText) return;
+
+            const btn = document.getElementById('btn-copy-od-summary');
+            if (!btn) return;
+            const originalHTML = btn.innerHTML;
+
+            navigator.clipboard.writeText(summaryText.innerText).then(() => {
+                btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> Copied!`;
+                btn.classList.remove('bg-brand-primary');
+                btn.classList.add('bg-green-600');
+                if (window.lucide) window.lucide.createIcons();
+
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('bg-green-600');
+                    btn.classList.add('bg-brand-primary');
+                    if (window.lucide) window.lucide.createIcons();
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Initialize Home
+        initTheme();
+        showPage('home');
+    </script>
+</body>
+</html>
